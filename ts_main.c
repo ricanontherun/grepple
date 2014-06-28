@@ -1,6 +1,6 @@
 #include "fs_parser.h"
 
 void ts_init() {
-    start_dir_loop();
+    print_dir_contents("./");
     return;
 }
