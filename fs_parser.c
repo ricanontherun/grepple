@@ -2,38 +2,59 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "searcher.h"
 #include "fs_parser.h"
+#include "searcher.h"
 
+typedef unsigned char u_char;
 /**
  *  Feeding this function into the scandir function allows a way to easily check and
  *  regulate which dirent entries are placed in **eps
  */
 static int valid_file(const struct dirent *unused) {
-    return 1;
+    // EMPLOY SOME REGULAR EXPRESSIONS HERE
+    // Only allow non-hidden directories
+    // and files without ~ and normal .extensions
+    if (strchr(unused->d_name, '~') == NULL)
+        return 1;
+    else
+        return 0;
+    u_char valid = 0;
+
+    switch (unused->d_type) {
+        case DT_REG:
+            valid = (strchr(unused->d_name, '~') == NULL);
+            break;
+        case DT_DIR:
+
+            break;
+    }
+
+    return valid;
 }
 
-void print_dir_contents(char *dirname) {
+void print_dir_contents(char *dirname, char *search_term) {
     struct dirent *de;
-    DIR *d;
+    struct dirent **eps;
+    int n;
+    int i;
 
-    d = opendir(dirname);
+    n = scandir(dirname, &eps, valid_file, alphasort);
 
-    if (d != NULL) {
-        while (de = readdir(d)) {
-            switch (de->d_type) {
+    if (n >= 0) {
+        for (i = 0; i < n; i++) {
+            switch (eps[i]->d_type) {
                 case DT_REG:
-                    search_for_term(de->d_name, "call_function"); 
+                    check_for_term(eps[i]->d_name, search_term); 
                     break;
                 case DT_DIR:
-                    if (strcmp(de->d_name, ".") != 0 && strcmp(de->d_name, "..") != 0) {
-                        print_dir_contents(de->d_name);
+                    if (strcmp(eps[i]->d_name, ".") != 0 && strcmp(eps[i]->d_name, "..") != 0 && strchr(eps[i]->d_name, '.') == NULL) {
+                        print_dir_contents(eps[i]->d_name, search_term);
                     }
                     break;
             }
+            free(eps[i]);
         }
-
-        closedir(d);
+        free(eps);
         return;
     } 
 }
