@@ -14,22 +14,7 @@ static int valid_file(const struct dirent *unused) {
     // EMPLOY SOME REGULAR EXPRESSIONS HERE
     // Only allow non-hidden directories
     // and files without ~ and normal .extensions
-    if (strchr(unused->d_name, '~') == NULL)
-        return 1;
-    else
-        return 0;
-    u_char valid = 0;
-
-    switch (unused->d_type) {
-        case DT_REG:
-            valid = (strchr(unused->d_name, '~') == NULL);
-            break;
-        case DT_DIR:
-
-            break;
-    }
-
-    return valid;
+    return 1;
 }
 
 void print_dir_contents(char *dirname, char *search_term) {
@@ -44,11 +29,12 @@ void print_dir_contents(char *dirname, char *search_term) {
         for (i = 0; i < n; i++) {
             switch (eps[i]->d_type) {
                 case DT_REG:
+                    // check_for_term needs the files relative path. Dumbass
                     check_for_term(eps[i]->d_name, search_term); 
                     break;
                 case DT_DIR:
                     if (strcmp(eps[i]->d_name, ".") != 0 && strcmp(eps[i]->d_name, "..") != 0 && strchr(eps[i]->d_name, '.') == NULL) {
-                        print_dir_contents(eps[i]->d_name, search_term);
+                        //print_dir_contents(eps[i]->d_name, search_term);
                     }
                     break;
             }
@@ -72,7 +58,7 @@ void start_dir_loop() {
             free(eps[cnt]);
         }
     } else {
-        fprintf(stderr, "error: Could not open directory.\n", NULL);
+        fprintf(stderr, "error: Could not open directory.\n");
     }
 
     free(eps);
