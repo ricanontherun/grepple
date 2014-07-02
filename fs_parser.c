@@ -29,12 +29,13 @@ void print_dir_contents(char *dirname, char *search_term) {
         for (i = 0; i < n; i++) {
             switch (eps[i]->d_type) {
                 case DT_REG:
+                    printf("%s/%s\n", dirname, eps[i]->d_name);
                     // check_for_term needs the files relative path. Dumbass
-                    check_for_term(eps[i]->d_name, search_term); 
+                    //check_for_term("./", eps[i]->d_name, search_term); 
                     break;
                 case DT_DIR:
                     if (strcmp(eps[i]->d_name, ".") != 0 && strcmp(eps[i]->d_name, "..") != 0 && strchr(eps[i]->d_name, '.') == NULL) {
-                        //print_dir_contents(eps[i]->d_name, search_term);
+                        print_dir_contents(eps[i]->d_name, search_term);
                     }
                     break;
             }
@@ -43,23 +44,4 @@ void print_dir_contents(char *dirname, char *search_term) {
         free(eps);
         return;
     } 
-}
-void start_dir_loop() {
-    struct dirent **eps;
-    int i;
-    int n;
-    n = scandir("./", &eps, valid_file, alphasort);
-
-    if (n >= 0) {
-        int cnt;
-
-        for (cnt = 0; cnt < n; cnt++) {
-            check_for_term(eps[cnt]->d_name, "call_function");
-            free(eps[cnt]);
-        }
-    } else {
-        fprintf(stderr, "error: Could not open directory.\n");
-    }
-
-    free(eps);
 }

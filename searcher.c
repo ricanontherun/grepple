@@ -7,7 +7,7 @@ void check_for_term(char *file_path, char *filename, char *search_term) {
     char s[READ_BLOCK_SIZE];
     int line_count = 0;
 
-    printf("File path: %s\n", *dir_path);
+    printf("File path: %s\n", file_path);
     while (fgets(s, READ_BLOCK_SIZE, fp) != NULL) {
         if (strchr(s, '\n') != NULL)
             line_count++;
