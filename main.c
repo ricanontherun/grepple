@@ -12,22 +12,26 @@ char *get_dir_path(stack *s) {
     for (i = 0; i < s->top; i++) {
         str_len++;
         dir = (char *) realloc(dir, (str_len * sizeof(s->elems[i])) + 1);
-        if (i != 0)
-            strcat(dir, "/");
         strcat(dir, s->elems[i]);
+        strcat(dir, "/");
     }
 
     return dir;
 }
 int main() {
-    stack *s = stack_new();
-    stack_push(s, ".");
-    stack_push(s, "test_dir");
-    stack_push(s, "test_dir_2");
-    char *path = get_dir_path(s);
+    char *curr_path;
+    stack *stk = stack_new();
 
-    printf("%s\n", path);
-    free(path);
-    empty_stack(s);
+    stack_push(stk, ".");
+    curr_path = get_dir_path(stk);
+
+    stack_push(stk, "app");
+    curr_path = get_dir_path(stk);
+
+    stack_push(stk, "controllers");
+    curr_path = get_dir_path(stk);
+
+    empty_stack(stk);
+    free(curr_path);
     return 0;
 }
