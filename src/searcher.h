@@ -3,5 +3,5 @@
 
 #define READ_BLOCK_SIZE 100
 
-extern void check_for_term(char *file_path, char *search_term);
+extern void search_for_term(char *file_path, char *search_term);
 #endif
