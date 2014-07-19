@@ -41,43 +41,18 @@ void print_dir_contents(char *dirname, char *search_term) {
     int n;
     int i;
 
-    stack_push(dir_stk, dirname);
-    free(current_path);
-    get_dir_path(dir_stk);
-    d = opendir(current_path);
+    d = opendir(dirname);
     printf("current working directory: %s\n", current_path);
     if (d != NULL) {
         while (de = readdir(d)) {
             switch (de->d_type) {
                 case DT_REG:
+                    printf("%s\n", de->d_name);
                     break;
                 case DT_DIR:
-                    if (valid_dir(de->d_name)) {
-                        print_dir_contents(de->d_name, search_term);
-                        stack_pop(dir_stk);
-                        free(current_path);
-                        get_dir_path(dir_stk);
-                    }
                     break;
             }
         }
     }
     free(d);
-}
-
-void get_dir_path(stack *s) {
-    int i;
-    current_path = (char *)malloc(strlen(s->elems[0]));
-    int str_len = 1;
-
-    if (current_path != NULL) {
-        for (i = 0; i < s->top; i++) {
-            str_len++;
-            current_path = (char *) realloc(current_path, (str_len * sizeof(s->elems[i])) + 1);
-            strcat(current_path, s->elems[i]);
-            strcat(current_path, "/");
-        }
-    }
-
-    return;
 }
