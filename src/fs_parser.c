@@ -47,8 +47,12 @@ void print_dir_contents(char *dirname, char *search_term) {
                     printf("%s\n", de->d_name);
                     break;
                 case DT_DIR:
-                    if (valid_file(de->d_name))
-                        print_dir_contents(de->d_name, search_term); 
+                    if (valid_file(de->d_name)) {
+                        print_dir_contents(de->d_name, search_term);
+                        free(current_working_dir);
+                        stack_pop(dir_stk);
+                        current_working_dir = get_dir_path(dir_stk);
+                    }
                     break;
             }
         }

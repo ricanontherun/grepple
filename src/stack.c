@@ -48,10 +48,12 @@ int is_stack_empty(stack *stack) {
 }
 
 void empty_stack(stack *stack) {
-    int i;
 
-    for (i = 0; i < stack->alloc_top; i++) {
-        free(stack->elems[i]);
+    if (!is_stack_empty(stack)) {
+        int i;
+        for (i = 0; i < stack->alloc_top; i++) {
+            free(stack->elems[i]);
+        }
     }
     free(stack);
     stack = NULL;
