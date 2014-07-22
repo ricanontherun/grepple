@@ -19,7 +19,6 @@ stack *stack_new() {
     }
 
     s->top = 0;
-    s->alloc_top = 0;
     return s;
 }
 
@@ -27,16 +26,18 @@ void stack_push(stack *stack, char *s) {
     if (!is_stack_full(stack)) {
         char *temp = strdup(s);
         stack->elems[stack->top++] = temp;
-        stack->alloc_top++;
     } else
         fprintf(stderr, "stack error: stack is full\n");
 }
 
-char *stack_pop(stack *stack) {
-    if (!is_stack_empty(stack))
-        return stack->elems[--stack->top];
-    else
-        return NULL;
+/**
+ *  Remove an element from the stack. For the purposes of this app, there is
+ *  no need to return any value.
+ */
+void stack_pop(stack *stack) {
+    if (!is_stack_empty(stack)) {
+        free(stack->elems[--stack->top]);
+    }
 }
 
 int is_stack_full(stack *stack) {
@@ -51,7 +52,7 @@ void empty_stack(stack *stack) {
 
     if (!is_stack_empty(stack)) {
         int i;
-        for (i = 0; i < stack->alloc_top; i++) {
+        for (i = 0; i < stack->top; i++) {
             free(stack->elems[i]);
         }
     }

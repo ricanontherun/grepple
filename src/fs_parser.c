@@ -11,10 +11,6 @@ typedef unsigned char u_char;
 char *seperator = "/";
 stack *dir_stk;
 
-/**
- *  Feeding this function into the scandir function allows a way to easily check and
- *  regulate which dirent entries are placed in **eps
- */
 int valid_file(char *dir_name) {
     int valid = 1;
 
@@ -26,6 +22,7 @@ int valid_file(char *dir_name) {
 void open_resources() {
     dir_stk = stack_new();
 }
+
 void close_resources() {
     empty_stack(dir_stk);
 }
@@ -43,8 +40,6 @@ void print_dir_contents(char *dirname, char *search_term) {
         while (de = readdir(d)) {
             switch (de->d_type) {
                 case DT_REG:
-                    printf("%s", current_working_dir);
-                    printf("%s\n", de->d_name);
                     break;
                 case DT_DIR:
                     if (valid_file(de->d_name)) {
