@@ -2,7 +2,8 @@
 #define FS_PARSER
 
 #include "stack.h"
-extern void start_dir_loop();
-extern void print_dir_contents(char *dirname, char *search_term);
 extern char *get_dir_path(stack *s);
+extern void read_dir_contents(char *dirname, char *search_term);
+extern int is_valid_directory(char *dir_name);
+
 #endif

@@ -1,8 +1,7 @@
 #include <dirent.h>
-#include <stdio.h>
-#include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "fs_parser.h"
 #include "searcher.h"
 #include "stack.h"
@@ -11,11 +10,20 @@ typedef unsigned char u_char;
 char *seperator = "/";
 stack *dir_stk;
 
-int valid_file(char *dir_name) {
+int is_valid_directory(char *dir_name) {
     int valid = 1;
 
     if (strchr(dir_name, '.') != NULL)
         valid = 0;
+    return valid;
+}
+
+int is_valid_file(char *file_name) {
+    int valid = 1;
+
+    if (strstr(file_name, ".dts") != NULL)
+        valid = 0;
+
     return valid;
 }
 
@@ -27,7 +35,7 @@ void close_resources() {
     empty_stack(dir_stk);
 }
 
-void print_dir_contents(char *dirname, char *search_term) {
+void read_dir_contents(char *dirname, char *search_term) {
     struct dirent *de;
     DIR *d;
 
@@ -36,16 +44,29 @@ void print_dir_contents(char *dirname, char *search_term) {
     char *current_working_dir = get_dir_path(dir_stk);
 
     d = opendir(current_working_dir);
+
     if (d != NULL) {
         while (de = readdir(d)) {
             switch (de->d_type) {
                 case DT_REG:
+                    ;
+                    // Create the full relative path to the current file.
+                    if (is_valid_file(de->d_name)) {
+                        size_t c_len = strlen(current_working_dir);
+                        size_t f_len = strlen(de->d_name); 
+                        char *full_file_path = malloc(c_len + f_len + 1);
+                        memcpy(full_file_path, current_working_dir, c_len);
+                        memcpy(full_file_path + c_len, de->d_name, f_len);
+                        full_file_path[c_len + f_len] = '\0';
+                        search_for_term(full_file_path, search_term); 
+                        free(full_file_path);
+                    }
                     break;
                 case DT_DIR:
-                    if (valid_file(de->d_name)) {
-                        print_dir_contents(de->d_name, search_term);
-                        free(current_working_dir);
+                    if (is_valid_directory(de->d_name)) {
+                        read_dir_contents(de->d_name, search_term);
                         stack_pop(dir_stk);
+                        free(current_working_dir);
                         current_working_dir = get_dir_path(dir_stk);
                     }
                     break;

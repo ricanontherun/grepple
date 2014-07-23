@@ -1,4 +1,4 @@
 grepple
 =======
 
-Similar to grep, search a file system for a term.
+Similar to grep/awk/ag, search a set of files for a term. Purely a learning experience.
