@@ -3,7 +3,7 @@
 
 #include "stack.h"
 extern char *get_dir_path(stack *s);
-extern void read_dir_contents(char *dirname, char *search_term);
+extern void recursive_search(char *dirname, char *search_term);
 extern int is_valid_directory(char *dir_name);
 
 #endif

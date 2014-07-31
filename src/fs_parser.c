@@ -35,7 +35,7 @@ void close_resources() {
     empty_stack(dir_stk);
 }
 
-void read_dir_contents(char *dirname, char *search_term) {
+void recursive_search(char *dirname, char *search_term) {
     struct dirent *de;
     DIR *d;
 
@@ -64,7 +64,7 @@ void read_dir_contents(char *dirname, char *search_term) {
                     break;
                 case DT_DIR:
                     if (is_valid_directory(de->d_name)) {
-                        read_dir_contents(de->d_name, search_term);
+                        recursive_search(de->d_name, search_term);
                         stack_pop(dir_stk);
                         free(current_working_dir);
                         current_working_dir = get_dir_path(dir_stk);
