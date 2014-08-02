@@ -5,10 +5,6 @@
 
 void grepple_init() {
     open_resources();
-    switch (search_type) {
-        case ST_RECURSIVE:
-            recursive_search("git", "int");
-            break;
-    }
+    dir_search(haystack, needle);
     close_resources();
 }

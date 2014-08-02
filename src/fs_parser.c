@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "fs_parser.h"
+#include "options.h"
 #include "searcher.h"
 #include "stack.h"
 
@@ -35,7 +36,7 @@ void close_resources() {
     empty_stack(dir_stk);
 }
 
-void recursive_search(char *dirname, char *search_term) {
+void dir_search(char *dirname, char *search_term) {
     struct dirent *de;
     DIR *d;
 
@@ -63,11 +64,13 @@ void recursive_search(char *dirname, char *search_term) {
                     }
                     break;
                 case DT_DIR:
-                    if (is_valid_directory(de->d_name)) {
-                        recursive_search(de->d_name, search_term);
-                        stack_pop(dir_stk);
-                        free(current_working_dir);
-                        current_working_dir = get_dir_path(dir_stk);
+                    if (search_type == ST_RECURSIVE) {
+                        if (is_valid_directory(de->d_name)) {
+                            dir_search(de->d_name, search_term);
+                            stack_pop(dir_stk);
+                            free(current_working_dir);
+                            current_working_dir = get_dir_path(dir_stk);
+                        }
                     }
                     break;
             }

@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
     open_resources();
-    read_dir_contents(argv[1], argv[2]);
+    dir_search(argv[1], argv[2]);
     close_resources();
     return EXIT_SUCCESS;
 }

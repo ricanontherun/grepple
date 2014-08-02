@@ -10,5 +10,7 @@ Similar to grep/awk/ag, search a set of files for a term. Purely a learning expe
 * Implement regular expression support
 * Perform benchmarking. If performance is sub par, introduce pthreads?
 
+# Usage
+
 # Installation
 Coming soon!
