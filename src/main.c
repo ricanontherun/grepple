@@ -1,14 +1,33 @@
-#include "../src/fs_parser.h"
 #include <stdlib.h>
-#include <stdio.h>
+#include <string.h>
+#include "init.h"
+#include "options.h"
 
 int main(int argc, char *argv[]) {
-    if (argc != 3) {
-        fprintf(stderr, "error: usage %s directory term\n", argv[0]);
-        return EXIT_FAILURE;
+    if (argc < 3) {
+        grepple_help();
+        exit(EXIT_FAILURE);
     }
-    open_resources();
-    read_dir_contents(argv[1], argv[2]);
-    close_resources();
+    int i = 0;
+    int haystack_i = argc - 2;
+    int needle_i = argc - 1;
+    
+    // Init option defaults
+    init_options();
+
+    for (i = 0; i < argc; i++) {
+        if (argv[i][0] == '-' && argv[i][1] != '-') {
+            parse_general_flags(argv[i]);
+        } else if (strstr(argv[i], "--ignore")) {
+            parse_ignore_flags(argv[i]);
+        } else if (strstr(argv[i], "--help")) {
+            grepple_help();
+            exit(EXIT_SUCCESS);
+        }
+    }
+
+    haystack = argv[haystack_i];
+    needle = argv[needle_i];
+    grepple_init();
     return EXIT_SUCCESS;
 }
