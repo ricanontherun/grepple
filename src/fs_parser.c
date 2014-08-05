@@ -5,7 +5,7 @@
 #include "fs_parser.h"
 #include "options.h"
 #include "searcher.h"
-#include "stack.h"
+#include "stack/stack.h"
 
 typedef unsigned char u_char;
 char *seperator = "/";

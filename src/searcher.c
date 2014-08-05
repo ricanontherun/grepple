@@ -9,14 +9,15 @@ void search_for_term(char *file_path, char *search_term) {
     char read_block[READ_BLOCK_SIZE];
     int line_count = 0;
 
-    while (fgets(read_block, READ_BLOCK_SIZE, fp) != NULL) {
-        if (strchr(read_block, '\n') != NULL)
-            line_count++;
-        if (strstr(read_block, search_term) != NULL) {
-            report_match(stdout, file_path, line_count, read_block); 
+    if (fp != NULL) {
+        while (fgets(read_block, READ_BLOCK_SIZE, fp) != NULL) {
+            if (strchr(read_block, '\n') != NULL)
+                line_count++;
+            if (strstr(read_block, search_term) != NULL) {
+                report_match(stdout, file_path, line_count, read_block); 
+            }
+        
         }
-    
+        fclose(fp);
     }
-
-    fclose(fp);
 }

@@ -30,5 +30,5 @@ int main(int argc, char *argv[]) {
     haystack = argv[haystack_i];
     needle = argv[needle_i];
     grepple_init();
-    return 1;
+    return EXIT_SUCCESS;
 }

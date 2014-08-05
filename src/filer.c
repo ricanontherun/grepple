@@ -7,8 +7,7 @@ FILE *get_file(char *path, const char *mode) {
 
     if (fp == NULL) {
         fprintf(stderr, "grepple: could not open file %s\n", path); 
-        exit(EXIT_FAILURE);
-    } else {
-        return fp;
     }
+
+    return fp;
 }
