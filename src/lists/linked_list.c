@@ -111,6 +111,17 @@ void ll_delete_node(linked_list *list, node *delete_me) {
 }
 
 /**
+ *  Print the nodes attached to a linked list.
+ *
+ *  @param (list) Linked List
+ */
+void ll_print_list(linked_list *list) {
+    node *n;
+    for (n = list->head; n->tail == false; n = n->next)
+        printf("%s\n", n->val);
+}
+
+/**
  * Remove all the nodes of a linked list. 
  *
  * @param (list) Linked List
