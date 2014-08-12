@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <string.h>
+
 #include "options.h"
+#include "lists/linked_list.h"
+#include "util.h"
 
 extern unsigned char search_type;
 extern char *haystack;
@@ -22,8 +25,31 @@ void parse_general_flags(char *flags) {
     }
 }
 
-void parse_ignore_flags(char *ignore_str) {
-    return;
+linked_list *parse_ignore_flags(char *s) {
+    unsigned short i;
+    unsigned char *lbp = strchr(s, '[');
+    unsigned char *rbp = strchr(s, ']');
+    unsigned char *p;
+    size_t len = strlen(s);
+    unsigned char ig_opts[len];
+
+    if (lbp && rbp && (lbp < rbp)) {
+        p = ++lbp;
+        i = 0;
+
+        while (*p != ']') {
+            ig_opts[i++] = *p;
+            p++;
+        }
+
+        ig_opts[i] = '\0';
+        linked_list *ig_list = ll_new();
+        string_split_to_ll(ig_opts, ig_list, ',');
+        return ig_list;
+    } else {
+        printf("Displaying grepple help...\n");
+        return NULL;
+    }
 }
 
 void grepple_help() {

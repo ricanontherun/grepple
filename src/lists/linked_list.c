@@ -5,7 +5,7 @@
 #include <assert.h>
 
 // Generic allocation macro
-#define NEW(type) ((type *)malloc(sizeof(type)))
+#define NEW(type) (malloc(sizeof (type)))
 
 // Assign a node pointer to node_ptr and give it tail node attributes.
 #define TAIL_NODE(node_ptr, tail_node) {\
@@ -65,21 +65,22 @@ void ll_append(linked_list *list, char *val) {
 }
 
 /**
- *  Attempt to locate the first node containing value val in the linked_list list.
- *
+ *  Determine if a val exists in the linked list list.
  *  @param (list) Linked list
- *  @return A pointer to the first node found containing val or NULL if not found. 
+ *  @param (val) Value to search for
+ *
+ *  @return Boolean
  */
-node *ll_find(linked_list *list, char *val) {
+int ll_node_exists(linked_list *list, char *val) {
     node *n;
+    int found = 0; // BOOL?
 
-    for (n = list->head; strcmp(n->val, val) && n->tail == false; n = n->next)
+    for (n = list->head; n->tail == false && strcmp(n->val, val) ; n = n->next)
         ;
 
-    if (strcmp(n->val, val) == 0)
-        return n;
-    else
-        return NULL;
+    if (n->tail == false && strcmp(n->val, val) == 0)
+        found = 1;
+    return found;
 }
 
 /**

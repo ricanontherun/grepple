@@ -1,68 +1,41 @@
 /*
-    Linked list test.
-    Read bytes from a file into the linked list.
-*/
+ *     Linked list test.
+ *         Read bytes from a file into the linked list.
+ *         */
 #include <stdio.h>
 #include <string.h>
-#include "../src/filer.h"
-#include "../src/lists/linked_list.h"
+#include "../src/options.h"
+#include <stdlib.h>
 
-void string_split_to_ll(char *s, linked_list *list) {
-    unsigned char ext[10];
-    unsigned char i = 0;
+typedef struct {
+    linked_list *ig_list;
+} glob;
 
-    while (*s != '\0') {
-        if (*s != ',') {
-            ext[i++] = *s;
-        } else {
-            ext[i] = '\0';
-            ll_append(list, ext);
-            i = 0;
-        }
-        s++;
-    }
-    ext[i] = '\0';
-    if (strlen(ext)) {
-        ll_append(list, ext);
-    }
-}
+glob *glob_s;
 
-linked_list *parse_ignore_flags(char *s) {
-    unsigned short i;
-    unsigned char *lbp = strchr(s, '[');
-    unsigned char *rbp = strchr(s, ']');
-    unsigned char *p;
-    size_t len = strlen(s);
-    unsigned char ig_opts[len];
+void grepple_free_resources() {
+    if (glob_s->ig_list != NULL)
+        ll_free_list(glob_s->ig_list);
 
-    if (lbp && rbp && (lbp < rbp)) {
-        p = ++lbp;
-        i = 0;
-
-        while (*p != ']') {
-            ig_opts[i++] = *p;
-            p++;
-        }
-
-        ig_opts[i] = '\0';
-        linked_list *ig_list = ll_new();
-        string_split_to_ll(ig_opts, ig_list);
-        return ig_list;
-    } else {
-        printf("Displaying grepple help...\n");
-        return NULL;
+    if (glob_s != NULL) {
+        free(glob_s);
     }
 }
 
 int main(int argc, char *argv[]) {
-    unsigned char i;
+    unsigned int i;
+    glob_s = malloc(sizeof(glob));
 
     for (i = 0; i < argc; i++) {
         if (strstr(argv[i], "--ignore")) {
-            linked_list *ig_list = parse_ignore_flags(argv[i]);
-            ll_print_list(ig_list);
-            ll_free_list(ig_list);
+            glob_s->ig_list = parse_ignore_flags(argv[i]);
+            if (glob_s->ig_list != NULL) {
+                ll_print_list(glob_s->ig_list);
+                int k = ll_node_exists(glob_s->ig_list, ".h");
+                printf("%d\n", k);
+            }
         }
     }
+    grepple_free_resources();
     return 1;
 }
