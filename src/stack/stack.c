@@ -2,10 +2,12 @@
     A custom stack implementation for grepple, my attempt at grep.
     Primarly used for directory path resolution.
  */
-#include "stack.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+
+#include "../init.h"
+#include "stack.h"
 
 // Generic memory alloc macro
 #define NEW(type) ((type *)malloc(sizeof(type)))
@@ -15,7 +17,7 @@ stack *stack_new() {
 
     if (!s) {
         fprintf(stderr, "stack error: Failed to allocate memory. Exiting program...\n");
-        exit(0);
+        grepple_exit(0);
     }
 
     s->top = 0;

@@ -1,39 +1,28 @@
 /*
- *     Linked list test.
- *         Read bytes from a file into the linked list.
- *         */
+    Make sure the ignore flags parser works.
+*/
 #include <stdio.h>
 #include <string.h>
+#include "../src/lists/linked_list.h"
 #include "../src/options.h"
-#include <stdlib.h>
+#include "../src/init.h"
 
-typedef struct {
-    linked_list *ig_list;
-} glob;
+unsigned int is_valid(char *s) {
+    unsigned int valid = 1;
+    char *ext = strchr(s, '.');
 
-glob *glob_s;
-
-void grepple_free_resources() {
-    if (glob_s->ig_list != NULL)
-        ll_free_list(glob_s->ig_list);
-
-    if (glob_s != NULL) {
-        free(glob_s);
+    if (ext != NULL) {     
+        valid = !ll_node_exists(search_options->ext_ignore_list, ext);
     }
+    return valid;
 }
-
 int main(int argc, char *argv[]) {
     unsigned int i;
-    glob_s = malloc(sizeof(glob));
-
+    grepple_init_resources();
     for (i = 0; i < argc; i++) {
         if (strstr(argv[i], "--ignore")) {
-            glob_s->ig_list = parse_ignore_flags(argv[i]);
-            if (glob_s->ig_list != NULL) {
-                ll_print_list(glob_s->ig_list);
-                int k = ll_node_exists(glob_s->ig_list, ".h");
-                printf("%d\n", k);
-            }
+            parse_ignore_flags(argv[i]);
+            printf("%d\n", is_valid("main.c.fuck"));
         }
     }
     grepple_free_resources();

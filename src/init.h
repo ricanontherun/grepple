@@ -2,5 +2,8 @@
 #define INIT_H
 
 extern void grepple_init();
+extern void grepple_init_resources();
+extern void grepple_free_resources();
+extern void grepple_exit(unsigned int exit_status);
 
 #endif

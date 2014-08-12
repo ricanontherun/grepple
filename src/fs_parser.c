@@ -2,38 +2,43 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+
 #include "fs_parser.h"
 #include "options.h"
 #include "searcher.h"
 #include "stack/stack.h"
+#include "lists/linked_list.h"
+
+extern grepple_search_options *search_options;
 
 typedef unsigned char u_char;
 char *seperator = "/";
-stack *dir_stk;
 
-int is_valid_directory(char *dir_name) {
-    int valid = 1;
+unsigned int is_valid_directory(char *dir_name) {
+    unsigned int valid = 1;
 
-    if (strchr(dir_name, '.') != NULL)
+    if (strchr(dir_name, '.') != NULL) {
         valid = 0;
+    }
+    
     return valid;
 }
 
-int is_valid_file(char *file_name) {
-    int valid = 1;
+unsigned int is_valid_file(char *file_name) {
+    unsigned int valid = 1;
+    // I'm using strrchr here to allow for file names like jquery.1.9.1.js
+    // strrchr wil get the last occurence of the character.
+    unsigned char *ext = strrchr(file_name, '.');
 
-    if (strstr(file_name, ".dts") != NULL)
+    if (strstr(file_name, ".dts") != NULL) {
         valid = 0;
+    }
+
+    if (ext != NULL) {
+        valid = !ll_node_exists(search_options->ext_ignore_list, ext);
+    }
 
     return valid;
-}
-
-void open_resources() {
-    dir_stk = stack_new();
-}
-
-void close_resources() {
-    empty_stack(dir_stk);
 }
 
 void dir_search(char *dirname, char *search_term) {
@@ -41,8 +46,8 @@ void dir_search(char *dirname, char *search_term) {
     DIR *d;
 
     // Push directory name on stack
-    stack_push(dir_stk, dirname);
-    char *current_working_dir = get_dir_path(dir_stk);
+    stack_push(search_options->current_directory_stack, dirname);
+    char *current_working_dir = get_dir_path(search_options->current_directory_stack);
 
     d = opendir(current_working_dir);
 
@@ -64,12 +69,12 @@ void dir_search(char *dirname, char *search_term) {
                     }
                     break;
                 case DT_DIR:
-                    if (search_type == ST_RECURSIVE) {
+                    if (search_options->search_type == ST_RECURSIVE) {
                         if (is_valid_directory(de->d_name)) {
                             dir_search(de->d_name, search_term);
-                            stack_pop(dir_stk);
+                            stack_pop(search_options->current_directory_stack);
                             free(current_working_dir);
-                            current_working_dir = get_dir_path(dir_stk);
+                            current_working_dir = get_dir_path(search_options->current_directory_stack);
                         }
                     }
                     break;
@@ -81,12 +86,12 @@ void dir_search(char *dirname, char *search_term) {
 }
 
 char *get_dir_path(stack *s) {
-    int i;
+    unsigned int i;
     char *seperator = "/";
     size_t len = strlen(s->elems[0]);
     size_t sep_len = strlen(seperator);
-    int str_len = 0;
-    int next_len = 0;
+    unsigned int str_len = 0;
+    unsigned int next_len = 0;
 
     char *current_working_dir = malloc(len + 2); 
     memcpy(current_working_dir, s->elems[0], len);

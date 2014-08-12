@@ -1,8 +1,9 @@
-#include "linked_list.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
+
+#include "../init.h"
+#include "linked_list.h"
 
 // Generic allocation macro
 #define NEW(type) (malloc(sizeof (type)))
@@ -26,7 +27,7 @@ linked_list *ll_new() {
 
     if (!l || !new_node) {
         fprintf(stderr, "Critical error: Failed to allocate memory. Exiting program...");
-        exit(EXIT_FAILURE);
+        grepple_exit(1);
     }
     TAIL_NODE(l->head, new_node);
     return l;
@@ -44,7 +45,7 @@ void ll_append(linked_list *list, char *val) {
     if (!new_node) {
         fprintf(stderr, "Critical error: Failed to allocate memory. Exiting program...");
         ll_free_list(list);
-        exit(EXIT_FAILURE);
+        grepple_exit(1);
     }
     if (list->head->tail == true) {
         list->head->val = strdup(val);

@@ -6,14 +6,16 @@
 int main(int argc, char *argv[]) {
     if (argc < 3) {
         grepple_help();
-        exit(EXIT_FAILURE);
+        grepple_exit(1);
     }
-    int i = 0;
-    int haystack_i = argc - 2;
-    int needle_i = argc - 1;
+    unsigned int i = 0;
+    unsigned int haystack_i = argc - 2;
+    unsigned int needle_i = argc - 1;
     
-    // Init option defaults
-    init_options();
+    grepple_init_resources();
+
+    search_options->haystack = argv[haystack_i];
+    search_options->needle = argv[needle_i];
 
     for (i = 0; i < argc; i++) {
         if (argv[i][0] == '-' && argv[i][1] != '-') {
@@ -22,12 +24,10 @@ int main(int argc, char *argv[]) {
             parse_ignore_flags(argv[i]);
         } else if (strstr(argv[i], "--help")) {
             grepple_help();
-            exit(EXIT_SUCCESS);
+            grepple_exit(0);
         }
     }
 
-    haystack = argv[haystack_i];
-    needle = argv[needle_i];
     grepple_init();
-    return EXIT_SUCCESS;
+    grepple_exit(0);
 }

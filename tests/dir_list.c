@@ -1,14 +1,15 @@
-#include "../src/fs_parser.h"
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "../src/fs_parser.h"
+#include "../src/init.h"
+#include "../src/options.h"
+
 int main(int argc, char *argv[]) {
-    if (argc != 3) {
-        fprintf(stderr, "error: usage %s directory term\n", argv[0]);
-        return EXIT_FAILURE;
-    }
-    open_resources();
-    dir_search(argv[1], argv[2]);
-    close_resources();
+    init_options(); 
+
+    haystack = ".";
+    needle = "grepple";
+    grepple_init();
     return EXIT_SUCCESS;
 }

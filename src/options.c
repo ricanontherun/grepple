@@ -1,23 +1,20 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "options.h"
 #include "lists/linked_list.h"
 #include "util.h"
+#include "init.h"
 
-extern unsigned char search_type;
-extern char *haystack;
-extern char *needle;
+extern grepple_search_options *search_options;
 
-void init_options() {
-    search_type = ST_REGULAR;
-}
 void parse_general_flags(char *flags) {
-    int i;
+    unsigned int i;
     for (i = 1; i < strlen(flags); i++) {
         switch (flags[i]) {
             case 'r':
-                search_type = ST_RECURSIVE;
+                search_options->search_type = ST_RECURSIVE;
                 break;
             default:
                 break;
@@ -25,7 +22,7 @@ void parse_general_flags(char *flags) {
     }
 }
 
-linked_list *parse_ignore_flags(char *s) {
+void parse_ignore_flags(char *s) {
     unsigned short i;
     unsigned char *lbp = strchr(s, '[');
     unsigned char *rbp = strchr(s, ']');
@@ -43,12 +40,11 @@ linked_list *parse_ignore_flags(char *s) {
         }
 
         ig_opts[i] = '\0';
-        linked_list *ig_list = ll_new();
-        string_split_to_ll(ig_opts, ig_list, ',');
-        return ig_list;
+        string_split_to_ll(ig_opts, search_options->ext_ignore_list, ',');
     } else {
-        printf("Displaying grepple help...\n");
-        return NULL;
+        grepple_help();
+        grepple_free_resources();
+        exit(EXIT_FAILURE);
     }
 }
 
