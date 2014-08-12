@@ -9,19 +9,21 @@
 extern grepple_search_options *search_options;
 
 void grepple_free_resources() {
-    if (search_options->ext_ignore_list != NULL) {
-        ll_free_list(search_options->ext_ignore_list);
-        search_options->ext_ignore_list = NULL;
-    }
-
-    if (search_options->current_directory_stack != NULL) {
-       empty_stack(search_options->current_directory_stack);
-       search_options->current_directory_stack = NULL;
-    }
-
     if (search_options != NULL) {
-        free(search_options);
-        search_options = NULL;
+        if (search_options->ext_ignore_list != NULL) {
+            ll_free_list(search_options->ext_ignore_list);
+            search_options->ext_ignore_list = NULL;
+        }
+
+        if (search_options->current_directory_stack != NULL) {
+           empty_stack(search_options->current_directory_stack);
+           search_options->current_directory_stack = NULL;
+        }
+
+        if (search_options != NULL) {
+            free(search_options);
+            search_options = NULL;
+        }
     }
 }
 

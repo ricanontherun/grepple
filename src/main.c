@@ -6,7 +6,7 @@
 int main(int argc, char *argv[]) {
     if (argc < 3) {
         grepple_help();
-        grepple_exit(1);
+        exit(1);
     }
     unsigned int i = 0;
     unsigned int haystack_i = argc - 2;
