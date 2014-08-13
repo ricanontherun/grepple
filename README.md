@@ -11,16 +11,16 @@ Similar to grep/awk/ag, search a set of files or a file for a keyword.
 * sudo mv grepple /bin
 
 # Usage & Examples
-### Display Help
+`Display Help`
 `grepple --help`
 
-### Search a single file (main.c) for "grepple_init"
+`Search a single file (main.c) for "grepple_init`
 `grepple main.c "grepple_init"`
 
-### Recursive search, current directory, searching for "stat_file_type"
+`Recursive search, current directory, searching for "stat_file_type`
 `grepple -r . "stat_file_type"`
 
-### Recursive search in jquery directory, ignoring javascript files, searching for "regex_email"
+`Recursive search in jquery directory, ignoring javascript files, searching for "regex_email`
 `grepple -r --ignore[.js] jquery "regex_email"`
 
 # Performance
