@@ -16,13 +16,16 @@ Display Help
 
 `grepple --help`
 
-### Search a single file (main.c) for "grepple_init
+Search a single file (main.c) for "grepple_init
+
 `grepple main.c "grepple_init"`
 
-### Recursive search, current directory, searching for "stat_file_type
+Recursive search, current directory, searching for "stat_file_type
+
 `grepple -r . "stat_file_type"`
 
-### Recursive search for regex_email, ignoring .js files
+Recursive search for regex_email, ignoring .js files
+
 `grepple -r --ignore[.js] jquery "regex_email"`
 
 # Performance
