@@ -20,11 +20,11 @@ Search a single file (main.c) for "grepple_init
 
 `grepple main.c "grepple_init"`
 
-Recursive search, current directory, searching for "stat_file_type
+Recursively search the current directory for "stat_file_type.
 
 `grepple -r . "stat_file_type"`
 
-Recursive search for regex_email, ignoring .js files
+Recurively search the jquery directory, ignoring all .js files, for "regex_email"
 
 `grepple -r --ignore[.js] jquery "regex_email"`
 
