@@ -1,6 +1,7 @@
-/*
-    A custom stack implementation for grepple, my attempt at grep.
-    Primarly used for directory path resolution.
+/**
+ *  File: stack.c
+ *
+ *  Custom stack implementation for grepple. Primarily used for directory path resolution.
  */
 #include <string.h>
 #include <stdlib.h>
@@ -9,9 +10,11 @@
 #include "../init.h"
 #include "stack.h"
 
-// Generic memory alloc macro
-#define NEW(type) ((type *)malloc(sizeof(type)))
+#define NEW(type) (malloc(sizeof(type)))
 
+/**
+ *  Create a new stack interface.
+ */
 stack *stack_new() {
     stack *s = NEW(stack);
 
@@ -24,6 +27,12 @@ stack *stack_new() {
     return s;
 }
 
+/**
+ *  Push a new string on to the stack
+ *
+ *  @param stack (stack *) Stack
+ *  @param s (char *) String to push on the stack
+ */
 void stack_push(stack *stack, char *s) {
     if (!is_stack_full(stack)) {
         char *temp = strdup(s);
@@ -33,8 +42,10 @@ void stack_push(stack *stack, char *s) {
 }
 
 /**
- *  Remove an element from the stack. For the purposes of this app, there is
- *  no need to return any value.
+ *  Pop a value off of the stack. This does NOT return a value, as a normal stack implementation does.
+ *  For the purposes of grepple, it doesn't need to.
+ *
+ *  @param stack (stack *) Stack
  */
 void stack_pop(stack *stack) {
     if (!is_stack_empty(stack)) {
@@ -42,16 +53,30 @@ void stack_pop(stack *stack) {
     }
 }
 
+/**
+ *  Is the stack full?
+ *
+ *  @param stack (stack *) stack
+ */
 int is_stack_full(stack *stack) {
     return (stack->top) == STACK_MAX;
 }
 
+/**
+ *  Is the stack empty?
+ *
+ *  @param stack (stack *) stack
+ */
 int is_stack_empty(stack *stack) {
     return stack->top == 0;
 }
 
+/**
+ *  Completely empty and free a stack.
+ *
+ *  @param stack (stack *) stack
+ */
 void empty_stack(stack *stack) {
-
     if (!is_stack_empty(stack)) {
         int i;
         for (i = 0; i < stack->top; i++) {

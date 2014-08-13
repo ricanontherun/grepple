@@ -1,3 +1,8 @@
+/**
+ *  File: options.c
+ *
+ *  Functions used to parse command line arguments and populate the search_options struct.
+ */
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -9,6 +14,11 @@
 
 extern grepple_search_options *search_options;
 
+/**
+ *  Parse general flags (Recursive, at the moment)
+ *
+ *  @param flags (char *) String in (hopefully) correct -flags format.
+ */
 void parse_general_flags(char *flags) {
     unsigned int i;
     for (i = 1; i < strlen(flags); i++) {
@@ -22,6 +32,11 @@ void parse_general_flags(char *flags) {
     }
 }
 
+/**
+ *  Parse ignore flags in the form --ignore[COMMA SEPERATE LIST]
+ *
+ *  @param s (char *) String in the form --ignore[COMMA SEPERATED LIST]
+ */
 void parse_ignore_flags(char *s) {
     unsigned short i;
     unsigned char *lbp = strchr(s, '[');
@@ -48,6 +63,9 @@ void parse_ignore_flags(char *s) {
     }
 }
 
+/**
+ *  Display grepple help.
+ */
 void grepple_help() {
     printf("Usage: grepple [OPTS] HAYSTACK NEEDLE\n"
             "Search a file or directory for a keyword\n"
