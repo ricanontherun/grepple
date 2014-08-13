@@ -11,7 +11,9 @@ Similar to grep/awk/ag, search a set of files or a file for a keyword.
 * sudo mv grepple /bin
 
 # Usage & Examples
+
 Display Help
+
 `grepple --help`
 
 ### Search a single file (main.c) for "grepple_init
