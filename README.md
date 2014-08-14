@@ -1,13 +1,13 @@
 #grepple
 =======
 
-Similar to grep/awk/ag, search a set of files or a file for a keyword.
+Similar to grep/ack/ag, search a set of files or a file for a keyword.
 
 # Installation
 ## Linux (Ubuntu)
 * git clone https://github.com/ricanontherun/grepple
 * cd grepple
-* make
+* make (gcc 4.6.2)
 * sudo mv grepple /bin
 
 # Usage & Examples
@@ -16,20 +16,20 @@ Display Help
 
 `grepple --help`
 
-Search a single file (main.c) for "grepple_init
+Search a single file (main.c) for grepple_init
 
 `grepple main.c "grepple_init"`
 
-Recursively search the current directory for "stat_file_type.
+Recursively search the current directory for stat_file_type.
 
 `grepple -r . "stat_file_type"`
 
-Recurively search the jquery directory, ignoring all .js files, for "regex_email"
+Recursively search the jquery directory, ignoring all .js files, for regex_email"
 
 `grepple -r --ignore[.js] jquery "regex_email"`
 
 # Performance
-Albeit grepple lacks the power of grep (for now), awk or ag, it executes basic keyword searches in almost half the time.
+Albeit grepple lacks the power of grep (for now), ack or ag, it executes basic keyword searches in about half the time.
 
 # To do
 * Color format terminal output
@@ -37,3 +37,4 @@ Albeit grepple lacks the power of grep (for now), awk or ag, it executes basic k
   * Circumvent the exhausting of Linux file descriptors in MASSIVE code bases. AKA -- Try and reuse the same file     descriptor for each file.
 * Check for binary files.
 * Perform benchmarking. If performance is sub par, introduce pthreads?
+* Make it cross platform (win32)

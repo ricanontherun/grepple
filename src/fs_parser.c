@@ -26,16 +26,20 @@ unsigned int is_valid_directory(char *dir_name) {
 
 unsigned int is_valid_file(char *file_name) {
     unsigned int valid = 1;
-    // I'm using strrchr here to allow for file names like jquery.1.9.1.js
-    // strrchr wil get the last occurence of the character.
-    unsigned char *ext = strrchr(file_name, '.');
+    unsigned char *ext;
 
+    // Implement a binary file check.
     if (strstr(file_name, ".dts") != NULL) {
         valid = 0;
     }
 
-    if (ext != NULL) {
-        valid = !ll_node_exists(search_options->ext_ignore_list, ext);
+    if (search_options->ext_ignore_list != NULL) {
+        // I'm using strrchr here to allow for file names like jquery.1.9.1.js
+        // strrchr wil get the last occurence of the character.
+        ext = strrchr(file_name, '.');
+        if (ext != NULL && ll_node_exists(search_options->ext_ignore_list, ext)) {
+            valid = 0; 
+        }
     }
 
     return valid;
