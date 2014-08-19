@@ -5,6 +5,7 @@
  */
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "util.h"
 #include "lists/linked_list.h"
@@ -17,30 +18,32 @@
  *  @param delim (char) character to split s on
  */
 void string_split_to_ll(char *s, linked_list *list, char delim) {
-    unsigned char ext[10]; // LIMIT THE LENGTH OF AN EXTENSION or do it with malloc
-    unsigned int i = 0;
-    unsigned int curr_pos = 0;
-    unsigned int start_pos = 0;
-    char *t = s;
+    char *temp = NULL;
+    unsigned int size = 0;
+    char *start = s;
 
     while (*s != '\0') {
-        if (*s != delim) {
-            ext[i++] = *s;
-            curr_pos++;
+        if (*s == delim) {
+            temp = malloc(size + 1);
+            memcpy(temp, start, size);
+            temp[size] = '\0';
+            ll_append(list, temp);
+            start = s + 1;
+            free(temp);
+            size = 0;
         } else {
-            ext[i] = '\0';
-            ll_append(list, ext);
-            printf("start pos: %c\n", *(t + start_pos));
-
-            start_pos = curr_pos - 1;
-            printf("end pos: %c\n", *(t + start_pos + curr_pos));
-            i = 0;
+            size++;
         }
         s++;
     }
-    ext[i] = '\0';
 
-    if (strlen(ext)) {
-        ll_append(list, ext);
+    if (size != 0) {
+        temp = malloc(size + 1);
+        memcpy(temp, start, size);
+        temp[size] = '\0';
+        ll_append(list, temp);
+        free(temp);
     }
+    
+    return;
 }
