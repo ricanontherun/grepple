@@ -1,7 +1,7 @@
 #grepple
 =======
 
-Similar to grep/ack/ag, search a set of files or a file for a keyword.
+File searching utility for linux.
 
 # Installation
 ## Linux (Ubuntu)
