@@ -4,12 +4,13 @@
 #include <stdio.h>
 
 #include "fs_parser.h"
+#include "grepple.h"
 #include "options.h"
 #include "searcher.h"
 #include "stack/stack.h"
 #include "lists/linked_list.h"
 
-extern grepple_search_options *search_options;
+extern greppleData *grepple;
 
 typedef unsigned char u_char;
 char *seperator = "/";
@@ -33,11 +34,11 @@ unsigned int is_valid_file(char *file_name) {
         valid = 0;
     }
 
-    if (search_options->ext_ignore_list != NULL) {
+    if (grepple->ext_ignore_list != NULL) {
         // I'm using strrchr here to allow for file names like jquery.1.9.1.js
         // strrchr wil get the last occurence of the character.
         ext = strrchr(file_name, '.');
-        if (ext != NULL && ll_node_exists(search_options->ext_ignore_list, ext)) {
+        if (ext != NULL && ll_node_exists(grepple->ext_ignore_list, ext)) {
             valid = 0; 
         }
     }
@@ -50,8 +51,8 @@ void dir_search(char *dirname, char *search_term) {
     DIR *d;
 
     // Push directory name on stack
-    stack_push(search_options->current_directory_stack, dirname);
-    char *current_working_dir = get_dir_path(search_options->current_directory_stack);
+    stack_push(grepple->current_directory_stack, dirname);
+    char *current_working_dir = get_dir_path(grepple->current_directory_stack);
 
     d = opendir(current_working_dir);
 
@@ -73,12 +74,12 @@ void dir_search(char *dirname, char *search_term) {
                     }
                     break;
                 case DT_DIR:
-                    if (search_options->search_type == ST_RECURSIVE) {
+                    if (grepple->search_type == ST_RECURSIVE) {
                         if (is_valid_directory(de->d_name)) {
                             dir_search(de->d_name, search_term);
-                            stack_pop(search_options->current_directory_stack);
+                            stack_pop(grepple->current_directory_stack);
                             free(current_working_dir);
-                            current_working_dir = get_dir_path(search_options->current_directory_stack);
+                            current_working_dir = get_dir_path(grepple->current_directory_stack);
                         }
                     }
                     break;

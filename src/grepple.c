@@ -4,10 +4,12 @@
 
 #include "mem.h"
 #include "grepple.h"
-//#include "init.h"
-//#include "options.h"
+#include "lists/linked_list.h"
+#include "stack/stack.h"
 
-struct greppleData *grepple;
+// Global grepple object.
+greppleData grepple;
+
 /**
  *  Display grepple help.
  */
@@ -28,6 +30,19 @@ void display_help() {
     return;
 }
 
+void initGrepple() {
+    grepple.ext_ignore_list = ll_new();
+    grepple.current_directory_stack = stack_new();
+}
+
+void destroyGrepple() {
+
+}
+
+void freeResources() {
+
+}
+
 int main(int argc, char *argv[]) {
     // Honestly, we should do ALL option/flag checking here.
     if (argc < 3) {
@@ -35,11 +50,12 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
+    initGrepple();
+
     unsigned int i = 0;
     unsigned int haystack_i = argc - 2;
     unsigned int needle_i = argc - 1;
 
-    grepple = NEW(greppleData);
 
 //    grepple->haystack = argv[haystack_i];
 //    grepple->needle = argv[needle_i];
