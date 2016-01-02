@@ -4,9 +4,9 @@
 #include "lists/linked_list.h"
 #include "stack/stack.h"
 
-#define ST_RECURSIVE 0
-#define ST_REGULAR 1
-#define ST_SINGLE_FILE 2
+#define SEARCH_TYPE_RECURSIVE 0
+#define SEARCH_TYPE_REGULAR 1
+#define SEARCH_TYPE_SINGLE_FILE 2
 
 typedef struct {
     // Search options

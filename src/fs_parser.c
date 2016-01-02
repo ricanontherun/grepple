@@ -5,7 +5,6 @@
 
 #include "fs_parser.h"
 #include "grepple.h"
-#include "options.h"
 #include "searcher.h"
 #include "stack/stack.h"
 #include "lists/linked_list.h"
@@ -74,7 +73,7 @@ void dir_search(char *dirname, char *search_term) {
                     }
                     break;
                 case DT_DIR:
-                    if (grepple->search_type == ST_RECURSIVE) {
+                    if (grepple->search_type == SEARCH_TYPE_RECURSIVE) {
                         if (is_valid_directory(de->d_name)) {
                             dir_search(de->d_name, search_term);
                             stack_pop(grepple->current_directory_stack);

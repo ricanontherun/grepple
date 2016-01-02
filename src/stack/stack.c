@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "../init.h"
 #include "stack.h"
 
 #define NEW(type) (malloc(sizeof(type)))
@@ -20,7 +19,6 @@ stack *stack_new() {
 
     if (!s) {
         fprintf(stderr, "stack error: Failed to allocate memory. Exiting program...\n");
-        grepple_exit(0);
     }
 
     s->top = 0;

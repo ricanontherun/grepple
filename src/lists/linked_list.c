@@ -1,4 +1,3 @@
-#include "../init.h"
 #include "linked_list.h"
 
 // Generic allocation macro
@@ -23,7 +22,6 @@ linked_list *ll_new() {
 
     if (!l || !new_node) {
         fprintf(stderr, "Critical error: Failed to allocate memory. Exiting program...");
-        grepple_exit(1);
     }
     TAIL_NODE(l->head, new_node);
     return l;
@@ -41,7 +39,6 @@ void ll_append(linked_list *list, char *val) {
     if (!new_node) {
         fprintf(stderr, "Critical error: Failed to allocate memory. Exiting program...");
         ll_free_list(list);
-        grepple_exit(1);
     }
     if (list->head->tail == true) {
         list->head->val = strdup(val);
