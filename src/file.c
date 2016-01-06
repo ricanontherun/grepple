@@ -1,16 +1,4 @@
-/**
- *  File: filer.c
- *
- *  Functions used for opening files and getting file stats.
- */
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-
-#include "filer.h"
+#include "file.h"
 
 /**
  *  Open a file.
@@ -20,7 +8,7 @@
  *
  *  @return File pointer or NULL if failure to open.
  */
-FILE *get_file(char *path, const char *mode) {
+FILE *getFile(char *path, const char *mode) {
     FILE *fp = fopen(path, mode);
 
     if (fp == NULL) {
@@ -36,11 +24,10 @@ FILE *get_file(char *path, const char *mode) {
  *  @param file_path (char *) Full file path
  *  @return File type as defined in sys/stat.h
  */
-int stat_file_type(char *file_path) {
+int getFileType(char *file_path) {
     struct stat file_stat;
-    int is_reg_file = 1;
 
-    if (stat(file_path, &file_stat) < 0) {
+    if ( stat(file_path, &file_stat) < 0 ) {
         fprintf(stderr, "grepple: could not read file %s\n", file_path);
         return 0;
     }

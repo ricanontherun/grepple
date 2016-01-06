@@ -4,6 +4,7 @@
 #include <sys/stat.h>
 
 #include "grepple.h"
+#include "search.h"
 
 // Global grepple object.
 greppleData grepple;
@@ -11,10 +12,16 @@ greppleData grepple;
 /**
  *  Display grepple help.
  */
-void display_help() {
-    printf("Usage: grepple [OPTS] HAYSTACK NEEDLE\n"
+void displayHelp() {
+    printf(        "   ___                   _     \n"
+                   "  / __|_ _ ___ _ __ _ __| |___ \n"
+                   " | (_ | '_/ -_) '_ \\ '_ \\ / -_)\n"
+                   "  \\___|_| \\___| .__/ .__/_\\___|\n"
+                   "              |_|  |_|         \n\n"
+                    "Usage: grepple [OPTS] HAYSTACK NEEDLE\n"
                    "Search a file or directory for a keyword\n"
                    "  -r\t\t\tRecursive, ignored if a non-directory HAYSTACK argument is provided\n"
+                           "  -e\t\t\tDisplay examples\n"
                    "  --ignore[...]\t\tExtension ignore, comma seperated list of file extensions to be ignored\n"
                    "  --help\t\tDisplay this help text\n"
                    "  HAYSTACK\t\tFile or directory to search for NEEDLE\n"
@@ -28,12 +35,19 @@ void display_help() {
     return;
 }
 
+/**************************************************
+|
+| Grepple object management
+|
+***************************************************/
 /**
  * Initialize grepple data structures.
  */
 void initGrepple() {
     grepple.ext_ignore_list = ll_new();
     grepple.current_directory_stack = stack_new();
+
+    grepple.search_type = SEARCH_TYPE_REGULAR;
 }
 
 void destroyGrepple() {
@@ -48,7 +62,7 @@ void destroyGrepple() {
     }
 }
 
-/**************************************************
+/***************************************************
 |
 | Option Parsing
 |
@@ -56,11 +70,13 @@ void destroyGrepple() {
 void parseGeneralFlags(char *flags) {
     unsigned int i;
     for ( i = 1; i < strlen(flags); i++ ) {
-        switch (flags[i]) {
-            case 'r':
+        printf("%d\n", flags[i]);
+        switch ( flags[i] ) {
+            case FLAG_RECURSIVE:
                 grepple.search_type = SEARCH_TYPE_RECURSIVE;
                 break;
             default:
+                grepple.search_type = SEARCH_TYPE_REGULAR;
                 break;
         }
     }
@@ -91,19 +107,24 @@ void parseIgnoreFlags(char *s) {
 }
 
 void parseFlags(int argc, char **argv) {
+    // First, check for the help flag.
+    if ( strcmp(argv[0], FLAG_HELP) == 0 || strcmp(argv[0], FLAG_HELP_SHORT) == 0 ) {
+        printf("Displaying the help by request\n");
+        displayHelp();
+    }
+
     grepple.haystack = argv[argc - 2];
     grepple.needle = argv[argc - 1];
 
     unsigned int i = 0;
 
     for ( i = 0; i < argc; i++ ) {
-        if ( argv[i][0] == '-' && argv[i][1] != '-' ) {
-            parseGeneralFlags(argv[i]);
-        } else if ( strstr(argv[i], "--ignore") ) {
+        if ( strstr(argv[i], "-izgnore") ) {
+            printf("Parsing ignore flags\n");
 //            parse_ignore_flags(argv[i]);
-        } else if ( strstr(argv[i], "--help") ) {
-            display_help();
-//            grepple_exit(0);
+        } else if ( strstr(argv[i], FLAG_PREFIX) || strstr(argv[i], FLAG_PREFIX_SHORT) ) {
+            printf("Parsing general flags\n");
+            parseGeneralFlags(argv[i]);
         }
     }
 
@@ -113,26 +134,27 @@ void parseFlags(int argc, char **argv) {
  * Start the main directory traversal routines.
  */
 void startGrepple() {
-//    switch(stat_file_type(grepple.haystack)) {
-//        case S_IFREG: // Regular file
-//            if (grepple.search_type == ST_RECURSIVE) {
-//                printf("grepple: Recursive flag provided with non-directory haystack, ignoring...\n");
-//            }
-//            search_for_term(grepple.haystack, grepple.needle);
-//            break;
-//        case S_IFDIR: // Directory
+    switch( getFileType(grepple.haystack) ) {
+        case S_IFREG: // Regular file
+            if ( grepple.search_type == SEARCH_TYPE_RECURSIVE ) {
+                printf("Recursive flag provided with non-directory haystack, ignoring...\n");
+            }
+
+            searchFile(grepple.haystack, grepple.needle);
+            break;
+        case S_IFDIR: // Directory
+            printf("Beginning directory traversal\n");
 //            dir_search(grepple.haystack, grepple.needle);
-//            break;
-//    }
-//
-//    return;
+            break;
+    }
+
+    return;
 }
 
 int main(int argc, char **argv) {
-    // Honestly, we should do ALL option/flag checking here.
-    if (argc < 3) {
-        display_help();
-        exit(1);
+    if ( argc < 2 ) {
+        displayHelp();
+        exit(EXIT_FAILURE);
     }
 
     initGrepple();
@@ -142,7 +164,6 @@ int main(int argc, char **argv) {
     startGrepple();
 
     destroyGrepple();
-//
-//    grepple_init();
-//    grepple_exit(0);
+
+    exit(EXIT_SUCCESS);
 }

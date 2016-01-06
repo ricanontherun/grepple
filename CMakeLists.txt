@@ -8,8 +8,8 @@ set(SOURCE_FILES
     src/lists/linked_list.h
     src/stack/stack.c
     src/stack/stack.h
-    src/filer.c
-    src/filer.h
+        src/file.c
+        src/file.h
     src/fs_parser.c
     src/fs_parser.h
     src/init.c
@@ -19,8 +19,8 @@ set(SOURCE_FILES
     src/match_printer.h
     src/options.c
     src/options.h
-    src/searcher.c
-    src/searcher.h
+        src/search.c
+        src/search.h
     src/util.c
     src/util.h
     src/mem.h

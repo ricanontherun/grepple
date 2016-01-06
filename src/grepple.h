@@ -8,6 +8,12 @@
 #define SEARCH_TYPE_REGULAR 1
 #define SEARCH_TYPE_SINGLE_FILE 2
 
+#define FLAG_PREFIX "--"
+#define FLAG_PREFIX_SHORT "-"
+#define FLAG_RECURSIVE 'r'
+#define FLAG_HELP "-help"
+#define FLAG_HELP_SHORT "-h"
+
 typedef struct {
     // Search options
     char *haystack;
@@ -17,6 +23,7 @@ typedef struct {
     stack *current_directory_stack;
 
     // Other data structures....
+    // search_context contexts;
 } greppleData;
 
 #endif //GREPPLE_GREPPLE_H

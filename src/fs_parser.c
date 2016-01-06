@@ -5,7 +5,7 @@
 
 #include "fs_parser.h"
 #include "grepple.h"
-#include "searcher.h"
+#include "search.h"
 #include "stack/stack.h"
 #include "lists/linked_list.h"
 
@@ -68,7 +68,7 @@ void dir_search(char *dirname, char *search_term) {
                         memcpy(full_file_path, current_working_dir, c_len);
                         memcpy(full_file_path + c_len, de->d_name, f_len);
                         full_file_path[c_len + f_len] = '\0';
-                        search_for_term(full_file_path, search_term); 
+                        searchFile(full_file_path, search_term);
                         free(full_file_path);
                     }
                     break;
