@@ -1,6 +1,7 @@
 #ifndef GREPPLE_H
 #define GREPPLE_H
 
+#include "search.h"
 #include "lists/linked_list.h"
 #include "stack/stack.h"
 
@@ -23,7 +24,7 @@ typedef struct {
     stack *current_directory_stack;
 
     // Other data structures....
-    // search_context contexts;
+    search search_list;
 } greppleData;
 
 #endif //GREPPLE_GREPPLE_H

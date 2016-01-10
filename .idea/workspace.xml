@@ -12,21 +12,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5acb8113-c809-4090-9514-c177e80791c5" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/filer.c" afterPath="$PROJECT_DIR$/src/file.c" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/filer.h" afterPath="$PROJECT_DIR$/src/file.h" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/searcher.c" afterPath="$PROJECT_DIR$/src/search.c" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/searcher.h" afterPath="$PROJECT_DIR$/src/search.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grepple" afterPath="$PROJECT_DIR$/grepple" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/grepple.iml" afterPath="$PROJECT_DIR$/.idea/grepple.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/makefile" afterPath="$PROJECT_DIR$/makefile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/fs_parser.c" afterPath="$PROJECT_DIR$/src/fs_parser.c" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/grepple.c" afterPath="$PROJECT_DIR$/src/grepple.c" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/grepple.h" afterPath="$PROJECT_DIR$/src/grepple.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/match_printer.c" afterPath="$PROJECT_DIR$/src/match_printer.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/file_type_test.c" afterPath="$PROJECT_DIR$/tests/file_type_test.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/searcher_test.c" afterPath="$PROJECT_DIR$/tests/searcher_test.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/search.c" afterPath="$PROJECT_DIR$/src/search.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/search.h" afterPath="$PROJECT_DIR$/src/search.h" />
     </list>
     <ignored path="grepple.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -47,11 +38,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="grepple.c" pinned="false" current-in-tab="false">
+      <file leaf-file-name="grepple.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/grepple.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="70" column="13" selection-start-line="70" selection-start-column="13" selection-end-line="70" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.12079832">
+              <caret line="110" column="0" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -61,7 +52,7 @@
         <entry file="file://$PROJECT_DIR$/src/search.c">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="60" column="22" selection-start-line="60" selection-start-column="22" selection-end-line="60" selection-end-column="22" />
+              <caret line="45" column="45" selection-start-line="45" selection-start-column="45" selection-end-line="45" selection-end-column="45" />
               <folding />
             </state>
           </provider>
@@ -71,7 +62,7 @@
         <entry file="file://$PROJECT_DIR$/src/match_printer.h">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="3" column="5" selection-start-line="3" selection-start-column="5" selection-end-line="3" selection-end-column="5" />
+              <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -91,7 +82,7 @@
         <entry file="file://$PROJECT_DIR$/src/search.h">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="18" column="14" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="14" />
+              <caret line="28" column="8" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -101,7 +92,7 @@
         <entry file="file://$PROJECT_DIR$/deps/linux/list.h">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="188" column="8" selection-start-line="188" selection-start-column="8" selection-end-line="188" selection-end-column="8" />
+              <caret line="19" column="7" selection-start-line="19" selection-start-column="7" selection-end-line="19" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -127,13 +118,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="grepple.h" pinned="false" current-in-tab="true">
+      <file leaf-file-name="grepple.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/grepple.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.60399157">
-              <caret line="25" column="30" selection-start-line="25" selection-start-column="30" selection-end-line="25" selection-end-column="30" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="27" column="2" selection-start-line="27" selection-start-column="2" selection-end-line="27" selection-end-column="2" />
               <folding>
-                <element signature="e#37#67#0" expanded="true" />
+                <element signature="e#37#56#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -175,13 +166,14 @@
         <option value="$PROJECT_DIR$/src/searcher.c" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_1" />
         <option value="$PROJECT_DIR$/src/fs_parser.c" />
-        <option value="$PROJECT_DIR$/src/grepple.c" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_2" />
         <option value="$PROJECT_DIR$/makefile" />
-        <option value="$PROJECT_DIR$/src/search.h" />
-        <option value="$PROJECT_DIR$/src/search.c" />
         <option value="$PROJECT_DIR$/src/match_printer.c" />
         <option value="$PROJECT_DIR$/src/grepple.h" />
+        <option value="$PROJECT_DIR$/src/match_printer.h" />
+        <option value="$PROJECT_DIR$/src/search.h" />
+        <option value="$PROJECT_DIR$/src/grepple.c" />
+        <option value="$PROJECT_DIR$/src/search.c" />
       </list>
     </option>
   </component>
@@ -193,9 +185,9 @@
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds">
     <option name="x" value="65" />
-    <option name="y" value="-4" />
+    <option name="y" value="24" />
     <option name="width" value="1855" />
-    <option name="height" value="1084" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -277,7 +269,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="SearchEverywhereHistoryKey" value="match&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/match_printer.c&#10;SEA&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/searcher.c&#10;file.h&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/file.h&#10;fs&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/fs_parser.c&#10;linkedl&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/lists/linked_list.c&#10;grepple.c&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/grepple.c&#10;tack&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/stack/stack.c&#10;stack.c&#9;null&#9;null&#10;make&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/makefile&#10;linked&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/lists/linked_list.c&#10;initData&#9;null&#9;null&#10;mem.h&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/mem.h&#10;filer.c&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/filer.c&#10;options.c&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/options.c&#10;init&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/init.c" />
+    <property name="SearchEverywhereHistoryKey" value="search.c&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/search.c&#10;match&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/match_printer.c&#10;SEA&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/searcher.c&#10;file.h&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/file.h&#10;fs&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/fs_parser.c&#10;linkedl&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/lists/linked_list.c&#10;grepple.c&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/grepple.c&#10;tack&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/stack/stack.c&#10;stack.c&#9;null&#9;null&#10;make&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/makefile&#10;linked&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/lists/linked_list.c&#10;initData&#9;null&#9;null&#10;mem.h&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/mem.h&#10;filer.c&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/filer.c&#10;options.c&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/options.c&#10;init&#9;FILE&#9;file:///home/christian/Documents/projects/grepple/src/init.c" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Font" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$2/Languages" value="TEXT" />
@@ -346,7 +338,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
+    <frame x="65" y="24" width="1855" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13962264" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -424,7 +416,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -433,7 +424,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding>
-            <element signature="e#37#67#0" expanded="true" />
+            <element signature="e#37#56#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -564,7 +555,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="6" column="19" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -699,6 +689,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/match_printer.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="17" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
           <folding />
         </state>
       </provider>
@@ -727,42 +724,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/deps/linux/list.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="188" column="8" selection-start-line="188" selection-start-column="8" selection-end-line="188" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/grepple.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="70" column="13" selection-start-line="70" selection-start-column="13" selection-end-line="70" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/match_printer.h">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="3" column="5" selection-start-line="3" selection-start-column="5" selection-end-line="3" selection-end-column="5" />
+          <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/match_printer.c">
+    <entry file="file://$PROJECT_DIR$/src/grepple.h">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="17" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
-          <folding />
+          <caret line="27" column="2" selection-start-line="27" selection-start-column="2" selection-end-line="27" selection-end-column="2" />
+          <folding>
+            <element signature="e#37#56#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/search.h">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="14" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="14" />
+          <caret line="28" column="8" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deps/linux/list.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="7" selection-start-line="19" selection-start-column="7" selection-end-line="19" selection-end-column="7" />
           <folding />
         </state>
       </provider>
@@ -770,18 +761,16 @@
     <entry file="file://$PROJECT_DIR$/src/search.c">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="60" column="22" selection-start-line="60" selection-start-column="22" selection-end-line="60" selection-end-column="22" />
+          <caret line="45" column="45" selection-start-line="45" selection-start-column="45" selection-end-line="45" selection-end-column="45" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/grepple.h">
+    <entry file="file://$PROJECT_DIR$/src/grepple.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.60399157">
-          <caret line="25" column="30" selection-start-line="25" selection-start-column="30" selection-end-line="25" selection-end-column="30" />
-          <folding>
-            <element signature="e#37#67#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.12079832">
+          <caret line="110" column="0" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

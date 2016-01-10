@@ -9,19 +9,28 @@
 
 #define READ_BLOCK_SIZE 100
 
-typedef struct search_result {
+/**
+ * A result represents a search "hit" with members including the line number
+ * and a some surrounding text for context.
+ */
+typedef struct result {
     unsigned int line_number;
     char *context;
-    struct list_head list;
-} search_result;
 
-typedef struct search_context {
+    struct list_head list;
+} result;
+
+/**
+ * A search represents a file with a list of results and a result_count.
+ */
+typedef struct search {
     char *filename;
     unsigned int result_count;
-    search_result results;
-} search_context;
+    result results;
 
-void initSearchContext(search_context *context);
+    struct list_head list;
+} search;
+
 void searchFile(char *file_path, char *search_term);
 
 #endif
