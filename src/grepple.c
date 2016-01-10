@@ -36,6 +36,24 @@ void displayHelp() {
     return;
 }
 
+void displayResults() {
+    search *search_entry;
+    struct list_head *search_pos, *search_tmp;
+    list_for_each_safe( search_pos, search_tmp, &(grepple.search_list.list) ) {
+        search_entry = list_entry(search_pos, search, list);
+
+        printf("%s\n", search_entry->filename);
+
+        result *result_entry;
+        struct list_head *result_pos, *result_tmp;
+        list_for_each_safe( result_pos, result_tmp, &(search_entry->results.list) ) {
+            result_entry = list_entry(result_pos, result, list);
+
+            printf("%d:\t%s", result_entry->line_number, result_entry->context);
+        }
+    }
+}
+
 /**************************************************
 |
 | Grepple object management
@@ -70,7 +88,6 @@ void destroyGrepple() {
     struct list_head *search_pos, *search_q;
     list_for_each_safe(search_pos, search_q, &(grepple.search_list.list) ) {
         search_tmp = list_entry(search_pos, search, list);
-        printf("Result File: %s\n", search_tmp->filename);
 
         // Free all search results in this search context.
         result *tmp;
@@ -174,6 +191,8 @@ void startGrepple() {
 //            dir_search(grepple.haystack, grepple.needle);
             break;
     }
+
+    displayResults();
 
     return;
 }
