@@ -3,12 +3,10 @@
 #include <stdlib.h>
 
 #include "../deps/linux/list.h"
-#include "mem.h"
 #include "grepple.h"
+#include "mem.h"
 #include "search.h"
 #include "match_printer.h"
-
-extern greppleData grepple;
 
 static void _initSearch(search *context) {
     context->result_count = 0;
@@ -20,18 +18,18 @@ static void _initSearch(search *context) {
 /**
  *  Search a file for a keyword.
  *  
- *  @param file_path (char *) Full file path
- *  @param search_term (char *) Keyword to search for
+ *  @param file_path (uint8_t *) Full file path
+ *  @param search_term (uint8_t *) Keyword to search for
  */
-void searchFile(char *file_path, char *search_term) {
+void searchFile(greppleData *grepple, uint8_t *file_path, uint8_t *search_term) {
     FILE *fp = getFile(file_path, "r");
-    char read_block[READ_BLOCK_SIZE];
-    int line_count = 0;
+    uint8_t read_block[READ_BLOCK_SIZE];
+    uint16_t line_count = 0;
 
     if ( fp != NULL ) {
         result *hit;
         search *context = NEW(search);
-        context->filename = file_path;
+        context->filename = strdup(file_path);
         _initSearch(context);
 
         while ( fgets(read_block, READ_BLOCK_SIZE, fp) != NULL ) {
@@ -59,7 +57,10 @@ void searchFile(char *file_path, char *search_term) {
 
         if ( context->result_count > 0 ) {
             // Add this context to the list.
-            list_add(&(context->list), &(grepple.search_list.list));
+            list_add(&(context->list), &(grepple->search_list.list));
+        } else {
+            free(context->filename);
+            free(context);
         }
 
         return;

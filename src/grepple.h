@@ -1,6 +1,8 @@
 #ifndef GREPPLE_H
 #define GREPPLE_H
 
+#include <stdint.h>
+
 #include "search.h"
 #include "lists/linked_list.h"
 #include "stack/stack.h"
@@ -14,17 +16,23 @@
 #define FLAG_RECURSIVE 'r'
 #define FLAG_HELP "-help"
 #define FLAG_HELP_SHORT "-h"
+#define FLAG_IGNORE "--"
 
 typedef struct {
     // Search options
-    char *haystack;
-    char *needle;
-    unsigned int search_type;
+    uint8_t *haystack;
+    uint8_t *needle;
+    uint8_t search_type;
+
+    // TODO: Get rid of these.
     linked_list *ext_ignore_list;
     stack *current_directory_stack;
 
-    // Other data structures....
     search search_list;
 } greppleData;
+
+void greppleInit(greppleData *grepple);
+void greppleStart(greppleData *grepple);
+void greppleDestroy(greppleData *grepple);
 
 #endif //GREPPLE_GREPPLE_H

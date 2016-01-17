@@ -1,10 +1,12 @@
-#ifndef SEARCHER_H
-#define SEARCHER_H
+#ifndef SEARCH_H
+#define SEARCH_H
 
+#include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
 
 #include "../deps/linux/list.h"
+#include "grepple.h"
 #include "file.h"
 
 #define READ_BLOCK_SIZE 100
@@ -14,9 +16,8 @@
  * and a some surrounding text for context.
  */
 typedef struct result {
-    unsigned int line_number;
-    char *context;
-
+    uint16_t line_number;
+    uint8_t *context;
     struct list_head list;
 } result;
 
@@ -24,13 +25,12 @@ typedef struct result {
  * A search represents a file with a list of results and a result_count.
  */
 typedef struct search {
-    char *filename;
-    unsigned int result_count;
+    uint8_t *filename;
+    uint16_t result_count;
     result results;
-
     struct list_head list;
 } search;
 
-void searchFile(char *file_path, char *search_term);
+void searchFile(greppleData *grepple, uint8_t *file_path, uint8_t *search_term);
 
 #endif

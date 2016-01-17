@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.3)
 project(grepple)
 
 set(SOURCE_FILES src/lists/linked_list.c src/stack/stack.c src/file.c
-    src/fs_parser.c
+        src/dir.c
     src/match_printer.c
     src/options.c
     src/search.c

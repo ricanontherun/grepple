@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "../src/fs_parser.h"
+#include "dir.h"
 #include "../src/init.h"
 #include "../src/options.h"
 

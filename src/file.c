@@ -3,12 +3,12 @@
 /**
  *  Open a file.
  *
- *  @param path (char *) Full file path
- *  @param mode (const char *) Open mode
+ *  @param path (uint8_t *) Full file path
+ *  @param mode (const uint8_t *) Open mode
  *
  *  @return File pointer or NULL if failure to open.
  */
-FILE *getFile(char *path, const char *mode) {
+FILE *getFile(uint8_t *path, const uint8_t *mode) {
     FILE *fp = fopen(path, mode);
 
     if (fp == NULL) {
@@ -21,10 +21,10 @@ FILE *getFile(char *path, const char *mode) {
 /**
  *  Get a file's type.
  *
- *  @param file_path (char *) Full file path
+ *  @param file_path (uint8_t *) Full file path
  *  @return File type as defined in sys/stat.h
  */
-int getFileType(char *file_path) {
+int getFileType(uint8_t *file_path) {
     struct stat file_stat;
 
     if ( stat(file_path, &file_stat) < 0 ) {
