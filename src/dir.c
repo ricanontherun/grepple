@@ -76,13 +76,13 @@ char *getWorkingDirectory(stack *s) {
     return current_working_dir;
 }
 
-void searchDirectory(uint8_t *haystack, uint8_t *needle) {
+void searchDirectory(greppleData *grepple, uint8_t *haystack, uint8_t *needle) {
     struct dirent *de;
     DIR *d;
 
     // Push directory name on stack
-    stack_push(grepple.current_directory_stack, haystack);
-    uint8_t *current_working_dir = getWorkingDirectory(grepple.current_directory_stack);
+    stack_push(grepple->current_directory_stack, haystack);
+    uint8_t *current_working_dir = getWorkingDirectory(grepple->current_directory_stack);
 
     d = opendir(current_working_dir);
 
@@ -102,15 +102,15 @@ void searchDirectory(uint8_t *haystack, uint8_t *needle) {
                     }
                     break;
                 case DT_DIR: // Directory
-                    if ( grepple.search_type == SEARCH_TYPE_RECURSIVE ) {
+                    if ( grepple->type == SEARCH_TYPE_REGULAR ) {
                         if ( isValidDirectory(de->d_name) ) {
-                            searchDirectory(de->d_name, needle);
+                            searchDirectory(grepple, de->d_name, needle);
 
                             // Whenever we leave a recursive directory search remove that directory from
                             // the directory stack and construct the working directory string.
-                            stack_pop(grepple.current_directory_stack);
+                            stack_pop(grepple->current_directory_stack);
                             free(current_working_dir);
-                            current_working_dir = getWorkingDirectory(grepple.current_directory_stack);
+                            current_working_dir = getWorkingDirectory(grepple->current_directory_stack);
                         }
                     }
                     break;

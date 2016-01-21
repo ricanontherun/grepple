@@ -37,10 +37,10 @@ void displayHelp() {
     return;
 }
 
-void displayResults() {
+void displayResults(greppleData *grepple) {
     search *search_entry;
     struct list_head *search_pos, *search_tmp;
-    list_for_each_safe( search_pos, search_tmp, &(grepple.search_list.list) ) {
+    list_for_each_safe( search_pos, search_tmp, &(grepple->search_list.list) ) {
         search_entry = list_entry(search_pos, search, list);
 
         printf("%s\n", search_entry->filename);
@@ -65,10 +65,10 @@ void parseGeneralFlags(uint8_t *flags) {
         printf("%d\n", flags[i]);
         switch ( flags[i] ) {
             case FLAG_RECURSIVE:
-                grepple.search_type = SEARCH_TYPE_RECURSIVE;
+                grepple.type = SEARCH_TYPE_RECURSIVE;
                 break;
             default:
-                grepple.search_type = SEARCH_TYPE_REGULAR;
+                grepple.type = SEARCH_TYPE_REGULAR;
                 break;
         }
     }
@@ -120,7 +120,6 @@ void parseFlags(int argc, uint8_t **argv) {
             parseGeneralFlags(argv[i]);
         }
     }
-
 }
 
 int main(int argc, uint8_t **argv) {
@@ -134,6 +133,8 @@ int main(int argc, uint8_t **argv) {
     parseFlags(argc, argv);
 
     greppleStart(&grepple);
+
+    displayResults(&grepple);
 
     greppleDestroy(&grepple);
 

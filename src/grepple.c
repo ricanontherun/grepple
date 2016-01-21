@@ -15,7 +15,7 @@ void greppleInit(greppleData *grepple) {
     grepple->ext_ignore_list = ll_new();
     grepple->current_directory_stack = stack_new();
 
-    grepple->search_type = SEARCH_TYPE_REGULAR;
+    grepple->type = SEARCH_TYPE_REGULAR;
 
     INIT_LIST_HEAD(&(grepple->search_list.list));
 }
@@ -56,23 +56,24 @@ void greppleDestroy(greppleData *grepple) {
         free(search_tmp);
     }
 }
+
 /**
  * Start the main directory traversal routines.
  */
 void greppleStart(greppleData *grepple) {
     switch( getFileType(grepple->haystack) ) {
         case S_IFREG: // Regular file
-            if ( grepple->search_type == SEARCH_TYPE_RECURSIVE ) {
+            if ( grepple->type == SEARCH_TYPE_RECURSIVE ) {
                 printf("Recursive flag provided with non-directory haystack, ignoring...\n");
             }
 
+            // We start the file searching routine with the provided haystack and needle.
             searchFile(grepple, grepple->haystack, grepple->needle);
             break;
         case S_IFDIR: // Directory
-            searchDirectory(grepple->haystack, grepple->needle);
+            searchDirectory(grepple, grepple->haystack, grepple->needle);
             break;
     }
 
-    displayResults();
     return;
 }

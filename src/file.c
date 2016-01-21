@@ -12,7 +12,7 @@ FILE *getFile(uint8_t *path, const uint8_t *mode) {
     FILE *fp = fopen(path, mode);
 
     if (fp == NULL) {
-        fprintf(stderr, "grepple: could not open file %s\n", path); 
+        fprintf(stderr, "Could not open file %s\n", path);
     }
 
     return fp;
@@ -28,7 +28,7 @@ int getFileType(uint8_t *file_path) {
     struct stat file_stat;
 
     if ( stat(file_path, &file_stat) < 0 ) {
-        fprintf(stderr, "grepple: could not read file %s\n", file_path);
+        fprintf(stderr, "Could not read file %s\n", file_path);
         return 0;
     }
 
