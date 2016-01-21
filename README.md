@@ -1,6 +1,5 @@
 #grepple
-
-File searching utility for linux.
+Fast and simple source code seaching utility.
 
 # Installation (Linux)
 * git clone https://github.com/ricanontherun/grepple
@@ -27,7 +26,7 @@ Recursively search the jquery directory, ignoring all .js files, for regex_email
 `grepple -r --ignore[.js] jquery "regex_email"`
 
 # Performance
-Albeit grepple lacks the power of grep (for now), ack or ag, it executes basic keyword searches in about half the time.
+Although grepple lacks the power of grep (for now), ack or ag, it executes basic keyword searches in about half the time.
 
 # To do
 * Better output - Trim match context, flip match order. 
