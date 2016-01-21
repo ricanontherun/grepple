@@ -30,9 +30,10 @@ Recursively search the jquery directory, ignoring all .js files, for regex_email
 Albeit grepple lacks the power of grep (for now), ack or ag, it executes basic keyword searches in about half the time.
 
 # To do
-* Color format terminal output
-* More tests for main file parsing routine
+* Better output - Trim match context, flip match order. 
+* Regular Expressions
+* Formatted termainal ouput
+* Utilize a testing framework.
   * Circumvent the exhausting of Linux file descriptors in MASSIVE code bases. AKA -- Try and reuse the same file     descriptor for each file.
 * Check for binary files.
 * Make it cross platform (win32)
-* Left trim hit context.
