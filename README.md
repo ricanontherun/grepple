@@ -1,10 +1,8 @@
 #grepple
-=======
 
 File searching utility for linux.
 
-# Installation
-## Linux (Ubuntu)
+# Installation (Linux)
 * git clone https://github.com/ricanontherun/grepple
 * cd grepple
 * make (gcc 4.6.2)
