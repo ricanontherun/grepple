@@ -1,5 +1,5 @@
 #grepple
-Fast and simple source code seaching utility.
+A simple and super fast source code searching utility.
 
 # Installation (Linux)
 * git clone https://github.com/ricanontherun/grepple
