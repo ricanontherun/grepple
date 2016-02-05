@@ -10,8 +10,6 @@
 #include "stack/stack.h"
 #include "lists/linked_list.h"
 
-extern greppleData grepple;
-
 char *seperator = "/";
 
 uint8_t isValidDirectory(uint8_t *dir_name) {
@@ -24,7 +22,7 @@ uint8_t isValidDirectory(uint8_t *dir_name) {
     return valid;
 }
 
-uint8_t isValidFile(uint8_t *file_name) {
+uint8_t isValidFile(greppleData *grepple, uint8_t *file_name) {
     uint8_t valid = 1;
 
     // Implement a binary file check.
@@ -32,9 +30,9 @@ uint8_t isValidFile(uint8_t *file_name) {
         valid = 0;
     }
 
-    if ( grepple.ext_ignore_list != NULL ) {
+    if ( grepple->ext_ignore_list != NULL ) {
         uint8_t *ext = strrchr(file_name, '.');
-        if (ext != NULL && ll_node_exists(grepple.ext_ignore_list, ext)) {
+        if (ext != NULL && ll_node_exists(grepple->ext_ignore_list, ext)) {
             valid = 0; 
         }
     }
@@ -90,7 +88,7 @@ void searchDirectory(greppleData *grepple, uint8_t *haystack, uint8_t *needle) {
         while ( de = readdir(d) ) {
             switch ( de->d_type ) {
                 case DT_REG: // Non-Directory
-                    if ( isValidFile(de->d_name) ) {
+                    if ( isValidFile(grepple, de->d_name) ) {
                         size_t c_len = strlen(current_working_dir);
                         size_t f_len = strlen(de->d_name); 
                         char *full_file_path = malloc(c_len + f_len + 1);

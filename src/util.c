@@ -1,14 +1,4 @@
-/**
- *  File: util.c
- *
- *  Misc. Functions
- */
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-
 #include "util.h"
-#include "lists/linked_list.h"
 
 /**
  *  Split a string into a linked list.
@@ -46,4 +36,13 @@ void string_split_to_ll(char *s, linked_list *list, char delim) {
     }
     
     return;
+}
+
+char *trim(char *s) {
+    while ( isspace(*s) ) { s++; };
+
+    char *end = s + strlen(s)- 1;
+    while ( end > s && isspace(*end) ) { end--; }
+
+    return s;
 }

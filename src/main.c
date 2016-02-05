@@ -43,7 +43,9 @@ void displayResults(greppleData *grepple) {
     list_for_each_safe( search_pos, search_tmp, &(grepple->search_list.list) ) {
         search_entry = list_entry(search_pos, search, list);
 
-        printf("%s\n", search_entry->filename);
+        printf("\n----------------------------------\n");
+        printf("| %s\n", search_entry->filename);
+        printf("----------------------------------\n");
 
         result *result_entry;
         struct list_head *result_pos, *result_tmp;

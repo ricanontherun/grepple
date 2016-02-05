@@ -28,11 +28,13 @@ Recursively search the jquery directory, ignoring all .js files, for regex_email
 # Performance
 Although grepple lacks the power of grep (for now), ack or ag, it executes basic keyword searches in about half the time.
 
+# Bugs
+* The recursive flag doesn't work. So...don't use it.
+
 # To do
-* Better output - Trim match context, flip match order. 
+* Improve output: Colors, group results by file
 * Regular Expressions
-* Formatted termainal ouput
 * Utilize a testing framework.
-  * Circumvent the exhausting of Linux file descriptors in MASSIVE code bases. AKA -- Try and reuse the same file     descriptor for each file.
+* Circumvent the exhausting of Linux file descriptors in MASSIVE code bases. AKA -- Try and reuse the same file     descriptor for each file.
 * Check for binary files.
 * Make it cross platform (win32)
