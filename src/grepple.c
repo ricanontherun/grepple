@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <sys/stat.h>
 
 #include "../deps/linux/list.h"
@@ -15,7 +14,9 @@ void greppleInit(greppleData *grepple) {
     grepple->ext_ignore_list = ll_new();
     grepple->current_directory_stack = stack_new();
 
-    grepple->type = SEARCH_TYPE_REGULAR;
+    grepple->s_flags = SEARCH_TERM;
+
+    grepple->pattern = NULL;
 
     INIT_LIST_HEAD(&(grepple->search_list.list));
 }
@@ -29,6 +30,11 @@ void greppleDestroy(greppleData *grepple) {
     if ( grepple->current_directory_stack != NULL ) {
         empty_stack(grepple->current_directory_stack);
         grepple->current_directory_stack = NULL;
+    }
+
+    if ( grepple->pattern != NULL ) {
+        regfree(grepple->pattern);
+        free(grepple->pattern);
     }
 
     // Free up any result and context lists.
@@ -63,15 +69,17 @@ void greppleDestroy(greppleData *grepple) {
 void greppleStart(greppleData *grepple) {
     switch( getFileType(grepple->haystack) ) {
         case S_IFREG: // Regular file
-            if ( grepple->type == SEARCH_TYPE_RECURSIVE ) {
+            if ( grepple->t_flags == TRAVERSAL_RECURSIVE ) {
                 printf("Recursive flag provided with non-directory haystack, ignoring...\n");
             }
 
             // We start the file searching routine with the provided haystack and needle.
             searchFile(grepple, grepple->haystack, grepple->needle);
+
             break;
         case S_IFDIR: // Directory
             searchDirectory(grepple, grepple->haystack, grepple->needle);
+
             break;
     }
 

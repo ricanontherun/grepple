@@ -6,7 +6,7 @@ set(SOURCE_FILES
         src/grepple.c
         src/dir.c
         src/file.c
-        src/match_printer.c
+        src/output.c
         src/search.c
         src/util.c
         deps/linux/list.h

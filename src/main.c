@@ -1,12 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/stat.h>
 
 #include "../deps/linux/list.h"
+#include "mem.h"
+#include "output.h"
 #include "grepple.h"
-#include "search.h"
-#include "dir.h"
 
 // grepple object declaration
 greppleData grepple;
@@ -52,10 +51,28 @@ void displayResults(greppleData *grepple) {
         list_for_each_safe( result_pos, result_tmp, &(search_entry->results.list) ) {
             result_entry = list_entry(result_pos, result, list);
 
-            printf("%d:\t%s", result_entry->line_number, result_entry->context);
+            printf("%d:\t" "\x1b[34m" "%s" "\x1b[0m", result_entry->line_number, result_entry->context);
         }
     }
 }
+
+void compilePattern(uint8_t *flags) {
+    regex_t *regex = NEW(regex_t);
+    uint32_t reti;
+
+    reti = regcomp(regex, flags, 0);
+
+    // Something went wrong in the compilation process.
+    if ( reti ) {
+        printf("Please provide a valid POSIX regular expression\n");
+        greppleDestroy(&grepple);
+    }
+
+    grepple.pattern = regex;
+    printf("Everything went okay...\n");
+}
+
+
 /***************************************************
 |
 | Option Parsing
@@ -64,42 +81,14 @@ void displayResults(greppleData *grepple) {
 void parseGeneralFlags(uint8_t *flags) {
     uint8_t i;
     for ( i = 1; i < strlen(flags); i++ ) {
-        printf("%d\n", flags[i]);
         switch ( flags[i] ) {
             case FLAG_RECURSIVE:
-                grepple.type = SEARCH_TYPE_RECURSIVE;
+                grepple.t_flags = TRAVERSAL_RECURSIVE;
                 break;
             default:
-                grepple.type = SEARCH_TYPE_REGULAR;
+                grepple.t_flags = TRAVERSAL_REGULAR;
                 break;
         }
-    }
-}
-
-void parseIgnoreFlags(uint8_t *s) {
-    uint16_t i;
-    uint8_t *lbp = strchr(s, '[');
-    uint8_t *rbp = strchr(s, ']');
-    uint8_t *p;
-
-    size_t len = strlen(s);
-    uint8_t ig_opts[len];
-
-    if (lbp && rbp && (lbp < rbp)) {
-        p = ++lbp;
-        i = 0;
-
-        while (*p != ']') {
-            ig_opts[i++] = *p;
-            p++;
-        }
-
-        ig_opts[i] = '\0';
-        // We really don't need a linked list.
-        // A simple string comparison could do.
-//        string_split_to_ll(ig_opts, grepple.ext_ignore_list, ',');
-    } else {
-        exit(EXIT_FAILURE);
     }
 }
 
@@ -116,8 +105,12 @@ void parseFlags(int argc, uint8_t **argv) {
     uint8_t i = 0;
 
     for ( i = 0; i < argc; i++ ) {
+        printf("Parsing %s\n", argv[i]);
         if ( strstr(argv[i], "-ignore") ) {
-//            parse_ignore_flags(argv[i]);
+
+        } else if ( strstr(argv[i], "-p") ) {
+            compilePattern(argv[i + 1]);
+            i += 1;
         } else if ( strstr(argv[i], FLAG_PREFIX) || strstr(argv[i], FLAG_PREFIX_SHORT) ) {
             parseGeneralFlags(argv[i]);
         }
@@ -134,9 +127,9 @@ int main(int argc, uint8_t **argv) {
 
     parseFlags(argc, argv);
 
-    greppleStart(&grepple);
-
-    displayResults(&grepple);
+//    greppleStart(&grepple);
+//
+//    displayResults(&grepple);
 
     greppleDestroy(&grepple);
 

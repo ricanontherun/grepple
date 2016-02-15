@@ -1,21 +1,28 @@
 #ifndef GREPPLE_H
 #define GREPPLE_H
 
+#include <regex.h>
 #include <stdint.h>
 
 #include "lists/linked_list.h"
 #include "stack/stack.h"
 
-typedef enum search_type {
-    SEARCH_TYPE_RECURSIVE,
-    SEARCH_TYPE_REGULAR,
-    SEARCH_TYPE_SINGLE_FILE
-} search_type;
+typedef enum traversal_flags {
+    TRAVERSAL_REGULAR,
+    TRAVERSAL_RECURSIVE,
+    TRAVERSAL_FILE
+} traversal_flags;
+
+typedef enum search_flags {
+    SEARCH_TERM,
+    SEARCH_PATTERN
+} search_flags;
 
 // ENUM?
 #define FLAG_PREFIX "--"
 #define FLAG_PREFIX_SHORT "-"
 #define FLAG_RECURSIVE 'r'
+#define FLAG_PATTERN 'p'
 #define FLAG_HELP "-help"
 #define FLAG_HELP_SHORT "-h"
 #define FLAG_IGNORE "--"
@@ -44,7 +51,11 @@ typedef struct {
     // Search options
     uint8_t *haystack;
     uint8_t *needle;
-    search_type type;
+    uint32_t s_flags;
+    uint32_t t_flags;
+
+    // Structures used when executing regular expressions.
+    regex_t *pattern;
 
     // TODO: Get rid of these.
     linked_list *ext_ignore_list;

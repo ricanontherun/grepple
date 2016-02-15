@@ -8,7 +8,17 @@
 
 #include "lists/linked_list.h"
 
-void string_split_to_ll(char *s, linked_list *list, char delim);
+#define LTRIM(s) \
+            do { \
+                while ( isspace(*s) ) { s++; }; \
+            } while(0)
+
+#define RTRIM(s) \
+            do { \
+                char *end = s + strlen(s)- 1; \
+                while ( end > s && isspace(*end) ) { end--; } \
+            } while (0)
+
 char *trim(char *s);
 
 #endif
