@@ -4,11 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-typedef unsigned short bool;
-
-#define false 0
-#define true 1
+#include <stdbool.h>
 
 struct node {
     char *val;

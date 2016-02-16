@@ -19,13 +19,10 @@ typedef enum search_flags {
 } search_flags;
 
 // ENUM?
-#define FLAG_PREFIX "--"
-#define FLAG_PREFIX_SHORT "-"
+#define FLAG_PREFIX "-"
 #define FLAG_RECURSIVE 'r'
 #define FLAG_PATTERN 'p'
-#define FLAG_HELP "-help"
-#define FLAG_HELP_SHORT "-h"
-#define FLAG_IGNORE "--"
+#define FLAG_HELP "--help"
 
 /**
  * A result represents a search "hit" with members including the line number

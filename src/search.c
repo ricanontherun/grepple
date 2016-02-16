@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <regex.h>
 
 #include "../deps/linux/list.h"
 #include "grepple.h"
@@ -21,27 +23,39 @@ void searchFile(greppleData *grepple, uint8_t *file_path, uint8_t *search_term) 
     uint16_t line_count = 0;
 
     if ( fp != NULL ) {
-        result *hit;
+        result *_result;
         search *context = NEW(search);
         context->filename = strdup(file_path);
         _initSearch(context);
 
         while ( fgets(read_block, READ_BLOCK_SIZE, fp) != NULL ) {
-            // We've passed a new line.
             if ( strchr(read_block, '\n') != NULL ) {
                 line_count++;
             }
 
-            if ( strstr(read_block, search_term) != NULL ) {
+            // Abstract this more.
+            // Depending on the s_flags, we either strstr to regexec
+            bool hit = 0;
+
+            if ( grepple->s_flags == SEARCH_TERM ) {
+                hit = strstr(read_block, search_term) != NULL;
+            } else {
+                int reti;
+                reti = regexec(grepple->pattern, read_block, 0, NULL, 0);
+                hit = !reti;
+            }
+
+            // We have a hit, attach it to this file's result list.
+            if ( hit == true ) {
                 context->result_count++;
 
                 char *trimmed_context = trim(read_block);
 
-                hit = NEW(result);
-                hit->context = strdup(trimmed_context);
-                hit->line_number = line_count;
+                _result = NEW(result);
+                _result->context = strdup(trimmed_context);
+                _result->line_number = line_count;
 
-                list_add(&(hit->list), &(context->results.list));
+                list_add(&(_result->list), &(context->results.list));
             }
         }
 

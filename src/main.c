@@ -19,14 +19,14 @@ void displayHelp() {
                            " | (_ | '_/ -_) '_ \\ '_ \\ / -_)\n"
                            "  \\___|_| \\___| .__/ .__/_\\___|\n"
                            "              |_|  |_|         \n\n"
-                           "Usage: grepple [OPTS] HAYSTACK NEEDLE\n"
+                           "Usage: grepple [FLAGS] HAYSTACK NEEDLE\n"
                            "Search a file or directory for a keyword\n"
-                           "  -r\t\t\tRecursive, ignored if a non-directory HAYSTACK argument is provided\n"
-                           "  -e\t\t\tDisplay examples\n"
+                           "  r\t\t\tRecursive, ignored if a non-directory HAYSTACK argument is provided\n"
+                           "  p\t\t\tTreat NEEDLE as a POSIX regular expression\n"
                            "  --ignore[...]\t\tExtension ignore, comma seperated list of file extensions to be ignored\n"
                            "  --help\t\tDisplay this help text\n"
                            "  HAYSTACK\t\tFile or directory to search for NEEDLE\n"
-                           "  NEEDLE\t\tKeyword to be located\n"
+                           "  NEEDLE\t\tTerm or pattern\n"
                            "\nExamples:\n"
                            "  grepple -r git int\n"
                            "\tRecursively search the git directory for int\n"
@@ -51,16 +51,21 @@ void displayResults(greppleData *grepple) {
         list_for_each_safe( result_pos, result_tmp, &(search_entry->results.list) ) {
             result_entry = list_entry(result_pos, result, list);
 
-            printf("%d:\t" "\x1b[34m" "%s" "\x1b[0m", result_entry->line_number, result_entry->context);
+            printf("%d:\t%s" "\x1b[0m", result_entry->line_number, result_entry->context);
         }
     }
 }
 
-void compilePattern(uint8_t *flags) {
+/**
+ * Attempt to compile a POSIX regular expression.
+ *
+ * uint32_t* pattern
+ */
+void compilePattern(uint8_t *pattern) {
     regex_t *regex = NEW(regex_t);
-    uint32_t reti;
+    int32_t reti;
 
-    reti = regcomp(regex, flags, 0);
+    reti = regcomp(regex, pattern, 0);
 
     // Something went wrong in the compilation process.
     if ( reti ) {
@@ -69,7 +74,6 @@ void compilePattern(uint8_t *flags) {
     }
 
     grepple.pattern = regex;
-    printf("Everything went okay...\n");
 }
 
 
@@ -80,38 +84,40 @@ void compilePattern(uint8_t *flags) {
 ****************************************************/
 void parseGeneralFlags(uint8_t *flags) {
     uint8_t i;
-    for ( i = 1; i < strlen(flags); i++ ) {
+    size_t flag_len = strlen(flags);
+
+    for ( i = 1; i < flag_len; i++ ) {
         switch ( flags[i] ) {
             case FLAG_RECURSIVE:
                 grepple.t_flags = TRAVERSAL_RECURSIVE;
                 break;
-            default:
-                grepple.t_flags = TRAVERSAL_REGULAR;
+            case FLAG_PATTERN:
+                compilePattern(grepple.needle);
+                grepple.s_flags = SEARCH_PATTERN;
                 break;
         }
     }
 }
 
 void parseFlags(int argc, uint8_t **argv) {
-    // First, check for the help flag.
-    if ( strcmp(argv[0], FLAG_HELP) == 0 || strcmp(argv[0], FLAG_HELP_SHORT) == 0 ) {
-        printf("Displaying the help by request\n");
-        displayHelp();
-    }
-
+    // The starting file and search term are always the last
+    // and second to last arguments, respectively.
     grepple.haystack = argv[argc - 2];
     grepple.needle = argv[argc - 1];
 
     uint8_t i = 0;
 
     for ( i = 0; i < argc; i++ ) {
-        printf("Parsing %s\n", argv[i]);
+        // Check for help.
+        if ( strcmp(argv[i], FLAG_HELP) == 0 ) {
+            displayHelp();
+            greppleDestroy(&grepple);
+            exit(0);
+        }
+
         if ( strstr(argv[i], "-ignore") ) {
 
-        } else if ( strstr(argv[i], "-p") ) {
-            compilePattern(argv[i + 1]);
-            i += 1;
-        } else if ( strstr(argv[i], FLAG_PREFIX) || strstr(argv[i], FLAG_PREFIX_SHORT) ) {
+        } else if ( strstr(argv[i], FLAG_PREFIX) ) {
             parseGeneralFlags(argv[i]);
         }
     }
@@ -127,9 +133,9 @@ int main(int argc, uint8_t **argv) {
 
     parseFlags(argc, argv);
 
-//    greppleStart(&grepple);
-//
-//    displayResults(&grepple);
+    greppleStart(&grepple);
+
+    displayResults(&grepple);
 
     greppleDestroy(&grepple);
 
