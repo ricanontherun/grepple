@@ -71,6 +71,7 @@ void compilePattern(uint8_t *pattern) {
     if ( reti ) {
         printf("Please provide a valid POSIX regular expression\n");
         greppleDestroy(&grepple);
+        exit(1);
     }
 
     grepple.pattern = regex;
