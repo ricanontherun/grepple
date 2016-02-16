@@ -27,9 +27,9 @@ Recursively search the src directory for uint32_t
 
 `grepple -r src uint32_t`
 
-The -p flag tells grepple to treat the needle argument as a POSIX regular expression.
+The p flag tells grepple to treat the needle argument as a POSIX regular expression.
 
-`grepple -p src/file.c ^[a-zA-Z0-9_]*$`
+`grepple -rp src ^[a-zA-Z0-9_]*$`
 
 # Performance
 Although grepple lacks the power of grep (for now), ack or ag, it executes basic keyword searches in about half the time. As I continue adding features, this speed will no doubt diminish. Benchmark analysis to come.
