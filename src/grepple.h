@@ -8,9 +8,9 @@
 #include "stack/stack.h"
 
 typedef enum traversal_flags {
-    TRAVERSAL_REGULAR,
-    TRAVERSAL_RECURSIVE,
-    TRAVERSAL_FILE
+    TRAVERSAL_REGULAR = 1,
+    TRAVERSAL_RECURSIVE = 2,
+    TRAVERSAL_FILE = 4
 } traversal_flags;
 
 typedef enum search_flags {
@@ -49,7 +49,7 @@ typedef struct {
     uint8_t *haystack;
     uint8_t *needle;
     uint32_t s_flags;
-    uint32_t t_flags;
+    uint32_t  t_flags;
 
     // Structures used when executing regular expressions.
     regex_t *pattern;
@@ -64,5 +64,6 @@ typedef struct {
 void greppleInit(greppleData *grepple);
 void greppleStart(greppleData *grepple);
 void greppleDestroy(greppleData *grepple);
+void greppleSetup(greppleData *grepple);
 
 #endif //GREPPLE_GREPPLE_H

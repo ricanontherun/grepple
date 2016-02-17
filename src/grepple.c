@@ -8,7 +8,7 @@
 #include "dir.h"
 
 /**
- * Initialize grepple data structures.
+ * Initialize grepple data structures and default values.
  */
 void greppleInit(greppleData *grepple) {
     grepple->ext_ignore_list = ll_new();
@@ -63,24 +63,31 @@ void greppleDestroy(greppleData *grepple) {
     }
 }
 
+void greppleSetup(greppleData *grepple) {
+    switch( getFileType(grepple->haystack) ) {
+        case S_IFREG: // Regular file
+            grepple->t_flags |= TRAVERSAL_FILE;
+            break;
+        case S_IFDIR: // Directory
+            grepple->t_flags |= TRAVERSAL_REGULAR;
+            break;
+    }
+}
+
 /**
  * Start the main directory traversal routines.
  */
 void greppleStart(greppleData *grepple) {
-    switch( getFileType(grepple->haystack) ) {
-        case S_IFREG: // Regular file
-            if ( grepple->t_flags == TRAVERSAL_RECURSIVE ) {
-                printf("Recursive flag provided with non-directory haystack, ignoring...\n");
-            }
+    if ( grepple->t_flags & TRAVERSAL_FILE ) {
+        // Just in case the user does something silly.
+        if ( grepple->t_flags & TRAVERSAL_RECURSIVE ) {
+            printf("Recursive flag provided with non-directory haystack, ignoring...\n");
+        }
 
-            // We start the file searching routine with the provided haystack and needle.
-            searchFile(grepple, grepple->haystack, grepple->needle);
-
-            break;
-        case S_IFDIR: // Directory
-            searchDirectory(grepple, grepple->haystack, grepple->needle);
-
-            break;
+        // We start the file searching routine with the provided haystack and needle.
+        searchFile(grepple, grepple->haystack, grepple->needle);
+    } else if ( grepple->t_flags & ( TRAVERSAL_REGULAR | TRAVERSAL_RECURSIVE ) ) {
+        searchDirectory(grepple, grepple->haystack, grepple->needle);
     }
 
     return;

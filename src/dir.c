@@ -100,7 +100,7 @@ void searchDirectory(greppleData *grepple, uint8_t *haystack, uint8_t *needle) {
                     }
                     break;
                 case DT_DIR: // Directory
-                    if ( grepple->t_flags == TRAVERSAL_RECURSIVE ) {
+                    if ( grepple->t_flags & TRAVERSAL_RECURSIVE ) {
                         if ( isValidDirectory(de->d_name) ) {
                             searchDirectory(grepple, de->d_name, needle);
 
