@@ -1,3 +1,4 @@
+#include "output.h"
 #include "file.h"
 
 /**
@@ -11,7 +12,7 @@
 FILE *getFile(uint8_t *path, const uint8_t *mode) {
     FILE *fp = fopen(path, mode);
 
-    if (fp == NULL) {
+    if ( fp == NULL ) {
         fprintf(stderr, "Could not open file %s\n", path);
     }
 

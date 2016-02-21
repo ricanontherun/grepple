@@ -5,6 +5,7 @@
 #include <regex.h>
 
 #include "../deps/linux/list.h"
+#include "output.h"
 #include "grepple.h"
 #include "mem.h"
 #include "search.h"
@@ -18,7 +19,13 @@ static void _initSearch(search *context) {
 }
 
 void searchFile(greppleData *grepple, uint8_t *file_path, uint8_t *search_term) {
-    FILE *fp = getFile(file_path, "r");
+    FILE *fp = fopen(file_path, "r");
+
+    if ( fp == NULL ) {
+        greppleError("Failed to open file\n");
+        return;
+    }
+
     uint8_t read_block[READ_BLOCK_SIZE];
     uint16_t line_count = 0;
 
@@ -33,10 +40,10 @@ void searchFile(greppleData *grepple, uint8_t *file_path, uint8_t *search_term) 
                 line_count++;
             }
 
-            // Abstract this more.
-            // Depending on the s_flags, we either strstr to regexec
             bool hit = 0;
 
+            // Depending on the provided flags, we either perform
+            // a basic strstr match or execute the compiled regular expression.
             if ( grepple->s_flags == SEARCH_TERM ) {
                 hit = strstr(read_block, search_term) != NULL;
             } else {
@@ -61,8 +68,8 @@ void searchFile(greppleData *grepple, uint8_t *file_path, uint8_t *search_term) 
 
         fclose(fp);
 
-        // We're only going to add this result to the results list
-        // if the search found at least one hit. Obviously.
+        // We're only going to add this result to the list
+        // if the search found at least one hit.
         if ( context->result_count > 0 ) {
             list_add(&(context->list), &(grepple->search_list.list));
         } else { // Free up the space otherwise.

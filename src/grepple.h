@@ -51,11 +51,9 @@ typedef struct {
     uint32_t s_flags;
     uint32_t  t_flags;
 
-    // Structures used when executing regular expressions.
+    // Regular expression structure.
     regex_t *pattern;
 
-    // TODO: Get rid of these.
-    linked_list *ext_ignore_list;
     stack *current_directory_stack;
 
     search search_list;
@@ -63,7 +61,6 @@ typedef struct {
 
 void greppleInit(greppleData *grepple);
 void greppleStart(greppleData *grepple);
-void greppleDestroy(greppleData *grepple);
-void greppleSetup(greppleData *grepple);
+void greppleFree(greppleData *grepple);
 
 #endif //GREPPLE_GREPPLE_H

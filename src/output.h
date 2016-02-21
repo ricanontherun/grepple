@@ -1,5 +1,7 @@
-#ifndef MATCH_PRINTER_H
-#define MATCH_PRINTER_H
+#ifndef OUTPUT_H
+#define OUTPUT_H
+
+#include <stdio.h>
 
 #include <stdint.h>
 
@@ -13,5 +15,6 @@
 
 void print_result(uint32_t line_number, char *context);
 void report_match(FILE *fp, char *file_path, unsigned int line_num, char *match_context);
+void greppleError(const char *);
 
 #endif

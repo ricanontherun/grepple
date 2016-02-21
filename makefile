@@ -12,10 +12,9 @@ build:
 	$(COMPILER) $(COMPILER_FLAGS) $(FILES) -o $(EXECUTABLE)
 
 install:
-	cp $(EXECUTABLE) $(EXECUTABLE_DIR)/${EXECUTABLE}
+	mv $(EXECUTABLE) $(EXECUTABLE_DIR)/${EXECUTABLE}
 
 clean:
 	rm -f src/*.o
-	rm -f $(EXECUTABLE) 
 
 rebuild: clean build install

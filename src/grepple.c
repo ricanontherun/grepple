@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 
@@ -11,22 +10,27 @@
  * Initialize grepple data structures and default values.
  */
 void greppleInit(greppleData *grepple) {
-    grepple->ext_ignore_list = ll_new();
     grepple->current_directory_stack = stack_new();
 
+    // Set some default values.
     grepple->s_flags = SEARCH_TERM;
-
     grepple->pattern = NULL;
 
+    // Set flags which depend on the haystack provided.
+    switch( getFileType(grepple->haystack) ) {
+        case S_IFREG: // Regular file
+            grepple->t_flags |= TRAVERSAL_FILE;
+            break;
+        case S_IFDIR: // Directory
+            grepple->t_flags |= TRAVERSAL_REGULAR;
+            break;
+    }
+
+    // Initialize the search list.
     INIT_LIST_HEAD(&(grepple->search_list.list));
 }
 
-void greppleDestroy(greppleData *grepple) {
-    if ( grepple->ext_ignore_list != NULL ) {
-        ll_free_list(grepple->ext_ignore_list);
-        grepple->ext_ignore_list = NULL;
-    }
-
+void greppleFree(greppleData *grepple) {
     if ( grepple->current_directory_stack != NULL ) {
         empty_stack(grepple->current_directory_stack);
         grepple->current_directory_stack = NULL;
@@ -63,28 +67,12 @@ void greppleDestroy(greppleData *grepple) {
     }
 }
 
-void greppleSetup(greppleData *grepple) {
-    switch( getFileType(grepple->haystack) ) {
-        case S_IFREG: // Regular file
-            grepple->t_flags |= TRAVERSAL_FILE;
-            break;
-        case S_IFDIR: // Directory
-            grepple->t_flags |= TRAVERSAL_REGULAR;
-            break;
-    }
-}
-
 /**
  * Start the main directory traversal routines.
  */
 void greppleStart(greppleData *grepple) {
-    if ( grepple->t_flags & TRAVERSAL_FILE ) {
-        // Just in case the user does something silly.
-        if ( grepple->t_flags & TRAVERSAL_RECURSIVE ) {
-            printf("Recursive flag provided with non-directory haystack, ignoring...\n");
-        }
 
-        // We start the file searching routine with the provided haystack and needle.
+    if ( grepple->t_flags & TRAVERSAL_FILE ) {
         searchFile(grepple, grepple->haystack, grepple->needle);
     } else if ( grepple->t_flags & ( TRAVERSAL_REGULAR | TRAVERSAL_RECURSIVE ) ) {
         searchDirectory(grepple, grepple->haystack, grepple->needle);

@@ -30,13 +30,6 @@ uint8_t isValidFile(greppleData *grepple, uint8_t *file_name) {
         valid = 0;
     }
 
-    if ( grepple->ext_ignore_list != NULL ) {
-        uint8_t *ext = strrchr(file_name, '.');
-        if (ext != NULL && ll_node_exists(grepple->ext_ignore_list, ext)) {
-            valid = 0; 
-        }
-    }
-
     return valid;
 }
 

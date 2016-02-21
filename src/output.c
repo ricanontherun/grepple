@@ -16,3 +16,7 @@ void report_match(FILE *fp, char *file_path, unsigned int line_num, char *match_
 void print_result(uint32_t line_number, char *context) {
 
 }
+
+void greppleError(const char *error) {
+    fprintf(stderr, "grepple: %s", error);
+}

@@ -36,10 +36,9 @@ Although grepple lacks the power of grep (for now), ack or ag, it executes basic
 
 # Bugs
 * Circumvent the exhausting of Linux file descriptors in MASSIVE code bases. AKA -- Try and reuse the same file descriptor for each file.
-* When displaying results, file lines are printed last to first.
 
 # To do
-* Improve output: Colors, group results by file, when a user specifies a single file don't print it in the results.
+* Highlight keyword in output
 * Utilize a testing framework.
 * Check for binary files.
 * Make it cross platform (win32)

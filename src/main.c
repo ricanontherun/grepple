@@ -42,15 +42,14 @@ void displayResults(greppleData *grepple) {
     list_for_each_safe( search_pos, search_tmp, &(grepple->search_list.list) ) {
         search_entry = list_entry(search_pos, search, list);
 
-        if ( !(grepple->t_flags & TRAVERSAL_FILE) ) {
-            printf("\n----------------------------------\n");
-            printf("| %s\n", search_entry->filename);
-            printf("----------------------------------\n");
-        }
+        printf("\n----------------------------------\n");
+        printf("| %s\n", search_entry->filename);
+        printf("----------------------------------\n");
 
         result *result_entry;
         struct list_head *result_pos, *result_tmp;
-        list_for_each_safe( result_pos, result_tmp, &(search_entry->results.list) ) {
+
+        list_for_each_prev( result_pos, &(search_entry->results.list) ) {
             result_entry = list_entry(result_pos, result, list);
 
             printf("%d:\t%s" "\x1b[0m", result_entry->line_number, result_entry->context);
@@ -64,19 +63,16 @@ void displayResults(greppleData *grepple) {
  * uint32_t* pattern
  */
 void compilePattern(uint8_t *pattern) {
-    regex_t *regex = NEW(regex_t);
-    int32_t reti;
+    grepple.pattern = NEW(regex_t);
+    int32_t compile_error;
 
-    reti = regcomp(regex, pattern, 0);
+    compile_error = regcomp(grepple.pattern, pattern, 0);
 
-    // Something went wrong in the compilation process.
-    if ( reti ) {
-        printf("Please provide a valid POSIX regular expression\n");
-        greppleDestroy(&grepple);
-        exit(1);
+    if ( compile_error ) {
+        greppleError("The provided POSIX expression failed to compile\n");
+        greppleFree(&grepple);
+        exit(EXIT_FAILURE);
     }
-
-    grepple.pattern = regex;
 }
 
 
@@ -111,15 +107,15 @@ void parseFlags(int argc, uint8_t **argv) {
     uint8_t i = 0;
 
     for ( i = 0; i < argc; i++ ) {
-        // Check for help.
+        // The user is requested help.
         if ( strcmp(argv[i], FLAG_HELP) == 0 ) {
             displayHelp();
-            greppleDestroy(&grepple);
-            exit(0);
+            greppleFree(&grepple);
+            exit(EXIT_SUCCESS);
         }
 
         if ( strstr(argv[i], "-ignore") ) {
-            printf("woah there\n");
+            printf("woah there\n")  ;
 
         } else if ( strstr(argv[i], FLAG_PREFIX) ) {
             parseGeneralFlags(argv[i]);
@@ -128,22 +124,30 @@ void parseFlags(int argc, uint8_t **argv) {
 }
 
 int main(int argc, uint8_t **argv) {
+    // Incorrect number of arguments, die.
     if ( argc < 2 ) {
         displayHelp();
         exit(EXIT_FAILURE);
     }
 
-    greppleInit(&grepple);
-
     parseFlags(argc, argv);
 
-    greppleSetup(&grepple);
+    // Initialize grepple's internal flags and default values.
+    greppleInit(&grepple);
 
+    // Check for silly-ness
+    if ( grepple.t_flags & TRAVERSAL_FILE && grepple.t_flags & TRAVERSAL_RECURSIVE ) {
+        greppleError("Recursive flag provided with regular file haystack. Ignoring\n");
+    }
+
+    // Start the searching routines.
     greppleStart(&grepple);
 
+    // Print results
     displayResults(&grepple);
 
-    greppleDestroy(&grepple);
+    // Cleanup
+    greppleFree(&grepple);
 
     exit(EXIT_SUCCESS);
 }
