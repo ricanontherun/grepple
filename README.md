@@ -4,8 +4,8 @@ A simple and super fast source code searching utility.
 # Installation (Linux)
 * git clone https://github.com/ricanontherun/grepple
 * cd grepple
-* make (gcc 4.6.2)
-* sudo mv grepple /bin
+* sudo make
+* sudo make clean
 
 # Usage & Examples
 
@@ -35,8 +35,8 @@ The p flag tells grepple to treat the needle argument as a POSIX regular express
 Although grepple lacks the power of grep (for now), ack or ag, it executes basic keyword searches in about half the time. As I continue adding features, this speed will no doubt diminish. Benchmark analysis to come.
 
 # Bugs
-* When regex compilation fails, a seg fault occurs.
-* Circumvent the exhausting of Linux file descriptors in MASSIVE code bases. AKA -- Try and reuse the same file     descriptor for each file.
+* Circumvent the exhausting of Linux file descriptors in MASSIVE code bases. AKA -- Try and reuse the same file descriptor for each file.
+* When displaying results, file lines are printed last to first.
 
 # To do
 * Improve output: Colors, group results by file, when a user specifies a single file don't print it in the results.
