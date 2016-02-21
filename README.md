@@ -31,9 +31,6 @@ The p flag tells grepple to treat the needle argument as a POSIX regular express
 
 `grepple -rp src ^[a-zA-Z0-9_]*$`
 
-# Performance
-Although grepple lacks the power of grep (for now), ack or ag, it executes basic keyword searches in about half the time. As I continue adding features, this speed will no doubt diminish. Benchmark analysis to come.
-
 # Bugs
 * Circumvent the exhausting of Linux file descriptors in MASSIVE code bases. AKA -- Try and reuse the same file descriptor for each file.
 
