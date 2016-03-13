@@ -35,6 +35,7 @@ The p flag tells grepple to treat the needle argument as a POSIX regular express
 * Circumvent the exhausting of Linux file descriptors in MASSIVE code bases. AKA -- Try and reuse the same file descriptor for each file.
 
 # To do
+* Utilize signal handling to ensure, to highest possibility, that we are cleaning up memory before termination.
 * Highlight keyword in output
 * Utilize a testing framework.
 * Check for binary files.
