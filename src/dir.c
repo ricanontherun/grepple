@@ -9,8 +9,7 @@
 #include "grepple.h"
 #include "stack/stack.h"
 #include "lists/linked_list.h"
-
-char *seperator = "/";
+#include "util.h"
 
 uint8_t isValidDirectory(uint8_t *dir_name) {
     uint8_t valid = 1;
@@ -22,6 +21,7 @@ uint8_t isValidDirectory(uint8_t *dir_name) {
     return valid;
 }
 
+// TODO: What's the point of this function exactly?
 uint8_t isValidFile(greppleData *grepple, uint8_t *file_name) {
     uint8_t valid = 1;
 
@@ -33,83 +33,65 @@ uint8_t isValidFile(greppleData *grepple, uint8_t *file_name) {
     return valid;
 }
 
-// TODO: All this function does is implode a linked list to a string.
-// Remove this nasty-ness  from this file and rename. listImplode(delimiter, list);
-char *getWorkingDirectory(stack *s) {
-    unsigned int i;
-    uint8_t *seperator = "/";
-    size_t len = strlen(s->elems[0]);
-    size_t sep_len = strlen(seperator);
-    unsigned int str_len = 0;
-    unsigned int next_len = 0;
-
-    uint8_t *current_working_dir = malloc(len + 2);
-    memcpy(current_working_dir, s->elems[0], len);
-    str_len += len;
-    memcpy(current_working_dir + str_len, seperator, sep_len);
-    str_len += sep_len;
-    current_working_dir[str_len] = '\0';
-
-    for (i = 1; i < s->top; i++) {
-        // Record the next elements length
-        next_len = strlen(s->elems[i]);
-
-        // Reallocate enough length
-        current_working_dir = realloc(current_working_dir, str_len + next_len + sep_len + 1);
-        memcpy(current_working_dir + str_len, s->elems[i], next_len);
-        str_len += next_len;
-
-        memcpy(current_working_dir + str_len, seperator, 1);
-        str_len += sep_len;
-    }
-
-    current_working_dir[str_len] = '\0';
-    return current_working_dir;
-}
-
 void searchDirectory(greppleData *grepple, uint8_t *haystack, uint8_t *needle) {
-    struct dirent *de;
-    DIR *d;
 
     // Push directory name on stack
     stack_push(grepple->current_directory_stack, haystack);
-    uint8_t *current_working_dir = getWorkingDirectory(grepple->current_directory_stack);
+    
+    uint8_t *current_working_dir = StringJoin(
+        grepple->current_directory_stack->elems,
+        grepple->current_directory_stack->top,
+        "/"
+    );
 
-    d = opendir(current_working_dir);
+    DIR *d = opendir(current_working_dir);
 
     if ( d != NULL ) {
+        struct dirent *de;
+        
         while ( de = readdir(d) ) {
             switch ( de->d_type ) {
-                case DT_REG: // Non-Directory
-                    if ( isValidFile(grepple, de->d_name) ) {
-                        size_t c_len = strlen(current_working_dir);
-                        size_t f_len = strlen(de->d_name); 
-                        char *full_file_path = malloc(c_len + f_len + 1);
-                        memcpy(full_file_path, current_working_dir, c_len);
-                        memcpy(full_file_path + c_len, de->d_name, f_len);
-                        full_file_path[c_len + f_len] = '\0';
-                        searchFile(grepple, full_file_path, needle);
-                        free(full_file_path);
+                case DT_REG: // Regular file.
+                    if (!isValidFile(grepple, de->d_name)) {
+                        break;
                     }
+
+                    // Build out the full path of the current file being searched.
+                    size_t file_path_length = strlen(current_working_dir) + strlen("/") + strlen(de->d_name) + 1;
+                    char * file_path = (char *) calloc(file_path_length, sizeof(char));
+                    strcat(file_path, current_working_dir);
+                    strcat(file_path, "/");
+                    strcat(file_path, de->d_name);
+                    file_path[file_path_length - 1] = '\0';
+
+                    searchFile(grepple, file_path, needle);
+
+                    free(file_path);
+
                     break;
                 case DT_DIR: // Directory
                     if ( grepple->t_flags & TRAVERSAL_RECURSIVE ) {
                         if ( isValidDirectory(de->d_name) ) {
                             searchDirectory(grepple, de->d_name, needle);
 
-                            // Whenever we leave a recursive directory search remove that directory from
-                            // the directory stack and construct the working directory string.
                             stack_pop(grepple->current_directory_stack);
+                            
                             free(current_working_dir);
-                            current_working_dir = getWorkingDirectory(grepple->current_directory_stack);
+
+                            current_working_dir = StringJoin(
+                                grepple->current_directory_stack->elems,
+                                grepple->current_directory_stack->top,
+                                "/"
+                            );
                         }
                     }
                     break;
             }
         }
+        
+        closedir(d);
     }
 
-    closedir(d);
     free(current_working_dir);
 }
 

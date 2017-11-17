@@ -6,7 +6,7 @@
 #include <ctype.h>
 #include <inttypes.h>
 
-#include "lists/linked_list.h"
+#define ARRAY_LENGTH(x) (sizeof(x) / sizeof((x[0])))
 
 #define LTRIM(s) \
             do { \
@@ -20,5 +20,7 @@
             } while (0)
 
 char *trim(char *s);
+
+char * StringJoin(char ** strings, size_t length, char * delim);
 
 #endif

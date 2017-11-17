@@ -26,13 +26,15 @@ void searchFile(greppleData *grepple, uint8_t *file_path, uint8_t *search_term) 
         return;
     }
 
+    // TODO: It might not be a bad idea to use the posix_fadvise trick OR a mmap'd file
+    // to improve read performance.
+
     uint8_t read_block[READ_BLOCK_SIZE];
     uint16_t line_count = 0;
 
     if ( fp != NULL ) {
         result *_result;
         search *context = NEW(search);
-        context->filename = strdup(file_path);
         _initSearch(context);
 
         while ( fgets(read_block, READ_BLOCK_SIZE, fp) != NULL ) {
@@ -71,10 +73,12 @@ void searchFile(greppleData *grepple, uint8_t *file_path, uint8_t *search_term) 
         // We're only going to add this result to the list
         // if the search found at least one hit.
         if ( context->result_count > 0 ) {
+            context->filename = strdup(file_path);
             list_add(&(context->list), &(grepple->search_list.list));
         } else { // Free up the space otherwise.
-            free(context->filename);
-            free(context);
+            if (context) {
+                free(context);
+            }
         }
 
         return;

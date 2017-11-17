@@ -135,7 +135,6 @@ int main(int argc, uint8_t **argv) {
     // Initialize grepple's internal flags and default values.
     greppleInit(&grepple);
 
-    // Check for silly-ness
     if ( grepple.t_flags & TRAVERSAL_FILE && grepple.t_flags & TRAVERSAL_RECURSIVE ) {
         greppleError("Recursive flag provided with regular file haystack. Ignoring\n");
     }
