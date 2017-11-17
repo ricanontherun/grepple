@@ -35,3 +35,4 @@ The p flag tells grepple to treat the needle argument as a POSIX regular express
 * Highlight keyword in output
 * Utilize a testing framework.
 * Check for binary files.
+* Look to ag for amazing CLI options.
