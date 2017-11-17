@@ -1,17 +1,16 @@
-#ifndef STKINT_H
-#define STKINT_H
+#ifndef GREPPLE_STACK_H 
+#define GREPPLE_STACK_H 
 
-#define STACK_MAX 100
+struct stack {
+    int top;
+    size_t max;
+    char **elems;
+};
 
-typedef struct {
-    int top; // Top of the stack
-    char *elems[STACK_MAX];
-} stack;
-
-extern stack *stack_new(void);
-extern void stack_push(stack *stack, char *s);
-extern void stack_pop(stack *stack);
-extern int is_stack_full(stack *stack);
-extern int is_stack_empty(stack *stack);
-extern void empty_stack(stack *stack);
+extern struct stack *stack_new(size_t size);
+extern void stack_push(struct stack *stack, char *s);
+extern void stack_pop(struct stack *stack);
+extern int is_stack_full(struct stack *stack);
+extern int is_stack_empty(struct stack *stack);
+extern void empty_stack(struct stack *stack);
 #endif

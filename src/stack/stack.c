@@ -1,8 +1,3 @@
-/**
- *  File: stack.c
- *
- *  Custom stack implementation for grepple. Primarily used for directory path resolution.
- */
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -14,14 +9,17 @@
 /**
  *  Create a new stack interface.
  */
-stack *stack_new() {
-    stack *s = NEW(stack);
+struct stack *stack_new(size_t size) {
+    struct stack *s = NEW(struct stack);
 
     if (!s) {
         fprintf(stderr, "stack error: Failed to allocate memory. Exiting program...\n");
     }
-
+    
+    s->elems = calloc(sizeof(char *) * size, sizeof(char *));
+    s->max = size;
     s->top = 0;
+
     return s;
 }
 
@@ -31,12 +29,13 @@ stack *stack_new() {
  *  @param stack (stack *) Stack
  *  @param s (char *) String to push on the stack
  */
-void stack_push(stack *stack, char *s) {
+void stack_push(struct stack *stack, char *s) {
     if (!is_stack_full(stack)) {
         char *temp = strdup(s);
         stack->elems[stack->top++] = temp;
-    } else
+    } else {
         fprintf(stderr, "stack error: stack is full\n");
+    }
 }
 
 /**
@@ -45,7 +44,7 @@ void stack_push(stack *stack, char *s) {
  *
  *  @param stack (stack *) Stack
  */
-void stack_pop(stack *stack) {
+void stack_pop(struct stack *stack) {
     if (!is_stack_empty(stack)) {
         free(stack->elems[--stack->top]);
     }
@@ -56,8 +55,8 @@ void stack_pop(stack *stack) {
  *
  *  @param stack (stack *) stack
  */
-int is_stack_full(stack *stack) {
-    return (stack->top) == STACK_MAX;
+int is_stack_full(struct stack *stack) {
+    return (stack->top) == stack->max;
 }
 
 /**
@@ -65,7 +64,7 @@ int is_stack_full(stack *stack) {
  *
  *  @param stack (stack *) stack
  */
-int is_stack_empty(stack *stack) {
+int is_stack_empty(struct stack *stack) {
     return stack->top == 0;
 }
 
@@ -74,14 +73,17 @@ int is_stack_empty(stack *stack) {
  *
  *  @param stack (stack *) stack
  */
-void empty_stack(stack *stack) {
+void empty_stack(struct stack *stack) {
     if (!is_stack_empty(stack)) {
         int i;
+
         for (i = 0; i < stack->top; i++) {
             free(stack->elems[i]);
         }
     }
+    
+    free(stack->elems);
     free(stack);
+
     stack = NULL;
-    return;
 }

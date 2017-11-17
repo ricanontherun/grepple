@@ -54,7 +54,7 @@ typedef struct {
     // Regular expression structure.
     regex_t *pattern;
 
-    stack *current_directory_stack;
+    struct stack *current_directory_stack;
 
     search search_list;
 } greppleData;

@@ -114,7 +114,7 @@ void parseFlags(int argc, uint8_t **argv) {
             exit(EXIT_SUCCESS);
         }
 
-        if ( strstr(argv[i], "-ignore") ) {
+        if ( strstr(argv[i], "--ignore") == (char *) argv[i] ) {
             // TODO: Implement this.
         } else if ( strstr(argv[i], FLAG_PREFIX) ) {
             parseGeneralFlags(argv[i]);
@@ -133,10 +133,6 @@ int main(int argc, uint8_t **argv) {
 
     // Initialize grepple's internal flags and default values.
     greppleInit(&grepple);
-
-    if ( grepple.t_flags & TRAVERSAL_FILE && grepple.t_flags & TRAVERSAL_RECURSIVE ) {
-        greppleError("Recursive flag provided with regular file haystack. Ignoring\n");
-    }
 
     // Start the searching routines.
     greppleStart(&grepple);

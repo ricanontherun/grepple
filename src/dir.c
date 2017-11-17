@@ -11,18 +11,13 @@
 #include "lists/linked_list.h"
 #include "util.h"
 
-uint8_t isValidDirectory(uint8_t *dir_name) {
-    uint8_t valid = 1;
+#define STRING_EQUALS(s1, s2) (strcmp((s1), (s2)) == 0)
 
-    if ( strchr(dir_name, '.') != NULL ) {
-        valid = 0;
-    }
-    
-    return valid;
+static inline uint8_t isValidDirectory(uint8_t *dir_name) {
+    return !STRING_EQUALS(dir_name, ".") != 0 && !STRING_EQUALS(dir_name, "..") != 0;
 }
 
-// TODO: What's the point of this function exactly?
-uint8_t isValidFile(greppleData *grepple, uint8_t *file_name) {
+static inline uint8_t isValidFile(greppleData *grepple, uint8_t *file_name) {
     uint8_t valid = 1;
 
     // Implement a binary file check.
@@ -34,8 +29,6 @@ uint8_t isValidFile(greppleData *grepple, uint8_t *file_name) {
 }
 
 void searchDirectory(greppleData *grepple, uint8_t *haystack, uint8_t *needle) {
-
-    // Push directory name on stack
     stack_push(grepple->current_directory_stack, haystack);
     
     uint8_t *current_working_dir = StringJoin(
@@ -85,6 +78,7 @@ void searchDirectory(greppleData *grepple, uint8_t *haystack, uint8_t *needle) {
                             );
                         }
                     }
+
                     break;
             }
         }

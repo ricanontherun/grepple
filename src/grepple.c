@@ -10,7 +10,7 @@
  * Initialize grepple data structures and default values.
  */
 void greppleInit(greppleData *grepple) {
-    grepple->current_directory_stack = stack_new();
+    grepple->current_directory_stack = stack_new(100);
 
     // Set some default values.
     grepple->s_flags = SEARCH_TERM;
