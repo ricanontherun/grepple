@@ -115,8 +115,7 @@ void parseFlags(int argc, uint8_t **argv) {
         }
 
         if ( strstr(argv[i], "-ignore") ) {
-            printf("woah there\n")  ;
-
+            // TODO: Implement this.
         } else if ( strstr(argv[i], FLAG_PREFIX) ) {
             parseGeneralFlags(argv[i]);
         }

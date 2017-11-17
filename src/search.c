@@ -37,6 +37,7 @@ void searchFile(greppleData *grepple, uint8_t *file_path, uint8_t *search_term) 
         search *context = NEW(search);
         _initSearch(context);
 
+        // TOOD: Change to use posix calls, open and read.
         while ( fgets(read_block, READ_BLOCK_SIZE, fp) != NULL ) {
             if ( strchr(read_block, '\n') != NULL ) {
                 line_count++;

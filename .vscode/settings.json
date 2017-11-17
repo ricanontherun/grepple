@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "list.h": "c",
+        "mem.h": "c",
+        "output.h": "c"
+    }
+}
